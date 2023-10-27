@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
@@ -15,15 +16,29 @@ public class PlayerController : MonoBehaviour
     public PlayerData_SO PlayerData { get { return mPlayerData; } }
     public PlayerCore mCore { get; private set; }
 
+    Rigidbody2D mRigidbody;
+
     IOCContainer mContainer = new IOCContainer();
     PlayerFSM RootFSM;
 
     private void Awake() {
+        OnComponentInit();
         OnFsmInit();
     }
 
     private void Update() {
-        
+        RootFSM.OnUpdate();
+    }
+
+    private void FixedUpdate() {
+        RootFSM.OnFixedUpdate();
+    }
+
+    void OnComponentInit() {
+        mRigidbody = GetComponent<Rigidbody2D>();
+
+        mCore = new PlayerCore(this);
+        mCore.OnInit();
     }
 
     #region FSM
