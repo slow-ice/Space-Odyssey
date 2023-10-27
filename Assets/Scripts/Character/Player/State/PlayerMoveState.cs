@@ -7,7 +7,6 @@ using UnityEngine;
 namespace Assets.Scripts.Character.Player.State {
     public class PlayerMoveState : PlayerState {
 
-        bool changestate;
         public PlayerMoveState(PlayerEnumStates type) : base(type) {
         }
 

@@ -51,5 +51,24 @@ namespace Assets.Scripts.Character {
                 mTransform.rotation = Quaternion.Slerp(mTransform.rotation, targetRotation, mPlayerData.rotateSpeed * Time.fixedDeltaTime);
             }
         }
+
+        public void TakeFire() {
+            if (InputManager.Instance.Fire) {
+
+            }
+        }
+
+        public void CheckAbsorb() {
+
+        }
+
+        void Absorb() {
+            //var colls = Physics2D.OverlapCircleAll(mTransform.position, mPlayerData.absorbRadius);
+            //foreach (var coll in colls) {
+            //    if (coll.TryGetComponent<IAbsorbale>(out var absorbale)) {
+            //        absorbale.Absorb();
+            //    }
+            //}
+        }
     }
 }

@@ -1,3 +1,4 @@
+using Assets.Architecture;
 using Assets.Scripts.Character;
 using Assets.Scripts.Character.Player.State;
 using Assets.Scripts.Model.Player;
@@ -9,7 +10,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IController
 {
     [SerializeField]
     PlayerData_SO mPlayerData;
@@ -21,13 +22,23 @@ public class PlayerController : MonoBehaviour
     IOCContainer mContainer = new IOCContainer();
     PlayerFSM RootFSM;
 
+    PlayerModel mModel;
+
     private void Awake() {
         OnComponentInit();
         OnFsmInit();
     }
 
+    private void Start() {
+        InitModel();
+    }
+
     private void Update() {
         RootFSM.OnUpdate();
+
+        if (Input.GetKeyDown(KeyCode.E)) {
+            Debug.Log("model health: " + mModel.Health.Value);
+        }
     }
 
     private void FixedUpdate() {
@@ -39,6 +50,11 @@ public class PlayerController : MonoBehaviour
 
         mCore = new PlayerCore(this);
         mCore.OnInit();
+    }
+
+    void InitModel() {
+        mModel = this.GetModel<PlayerModel>();
+        mModel.InitRuntimeData(mPlayerData.health);
     }
 
     #region FSM
@@ -68,6 +84,10 @@ public class PlayerController : MonoBehaviour
 
     public TState GetState<TState>() where TState : FSMState<PlayerEnumStates> {
         return mContainer.Get<TState>();
+    }
+
+    public IArchitecture GetArchitecture() {
+        return GameArchitecture.Interface;
     }
 
     #endregion
