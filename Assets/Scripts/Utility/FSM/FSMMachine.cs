@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Character;
+using Assets.Utility;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -19,7 +22,8 @@ namespace Assets.Scripts.Refactoring {
 
         public bool IsRootMachine = false;
 
-
+        public FSMMachine(TState state) : base(state) { }
+        public FSMMachine() { }
 
         public override void OnInit() {
             if (!IsRootMachine) {
@@ -33,12 +37,12 @@ namespace Assets.Scripts.Refactoring {
         /// 添加状态跳转
         /// </summary>
         /// <param name="transition"></param>
-        public override FSMTransition<TState> AddTransition(FSMTransition<TState> transition) {
+        public override void AddTransition(FSMTransition<TState> transition) {
             if (mAllSubStates.TryGetValue(transition.FromState, out var state)) {
-                return state.AddTransition(transition);
+                state.AddTransition(transition);
             }
             else {
-                return base.AddTransition(transition);
+                base.AddTransition(transition);
             }
         }
 
@@ -97,9 +101,20 @@ namespace Assets.Scripts.Refactoring {
             mAllSubStates.Add(type, state);
         }
 
+        public void AddState(FSMState<TState> state) {
+            state.mParentState = this;
+            state.OnInit();
+
+            if (mAllSubStates.Count == 0) {
+                DefaultSubState = state;
+            }
+
+            mAllSubStates.Add(state.stateType, state);
+        }
+
         public void ChangeState(TState state) {
             ActiveSubState?.OnExit();
-            
+
             var newState = GetState(state);
             mSubLayerTransitions = newState.mCurrentLayerTransitions ?? noTransitions;
             ActiveSubState = newState;
@@ -148,6 +163,32 @@ namespace Assets.Scripts.Refactoring {
     public class FSMMachine : FSMMachine<string> {
         public FSMMachine() {
 
+        }
+    }
+
+    public class PlayerFSM : FSMMachine<PlayerEnumStates> {
+        protected PlayerController controller;
+        protected PlayerCore core;
+
+        public PlayerFSM(PlayerEnumStates type) : base(type) { }
+
+        /// <summary>
+        /// 两个状态的转化, 包含下一层之间的转化, 以及该大状态到其他大状态的转化
+        /// </summary>
+        /// <param name="fromState"></param>
+        /// <param name="toState"></param>
+        /// <param name="cond"></param>
+        protected void InitialTransition(PlayerEnumStates fromState, PlayerEnumStates toState, Func<bool> cond) {
+            var transition = new PlayerTransition(fromState, toState);
+            transition.AddCondition(cond);
+            AddTransition(transition);
+        }
+
+
+
+        public void OnInit(PlayerController tcontroller, PlayerCore tcore) {
+            controller = tcontroller;
+            core = tcore;
         }
     }
 }

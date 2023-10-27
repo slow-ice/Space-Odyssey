@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Utility;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,5 +53,10 @@ namespace Assets.Scripts.Refactoring {
 
     public class FSMTransition : FSMTransition<string> {
         public FSMTransition(string fromState, string toState) : base(fromState, toState) { }
+    }
+
+    public class PlayerTransition : FSMTransition<PlayerEnumStates> {
+        public PlayerTransition(PlayerEnumStates fromState, PlayerEnumStates toState) : base(fromState, toState) {
+        }
     }
 }

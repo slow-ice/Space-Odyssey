@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Assets.Scripts.Character;
+using Assets.Utility;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,7 +31,8 @@ namespace Assets.Scripts.Refactoring {
 
         }
 
-        public virtual void OnInit(Action<FSMState<TState>> enter, Action<FSMState<TState>> update, Action<FSMState<TState>> exit) {
+        public virtual void OnInit(Action<FSMState<TState>> enter = null,
+                    Action<FSMState<TState>> update = null, Action<FSMState<TState>> exit = null) {
             mOnEnter = enter;
             mOnUpdate = update;
             mOnExit = exit;
@@ -39,10 +42,9 @@ namespace Assets.Scripts.Refactoring {
         /// 添加状态转换
         /// </summary>
         /// <param name="transition"></param>
-        public virtual FSMTransition<TState> AddTransition(FSMTransition<TState> transition) {
+        public virtual void AddTransition(FSMTransition<TState> transition) {
             mCurrentLayerTransitions = mCurrentLayerTransitions ?? new List<FSMTransition<TState>>();
             mCurrentLayerTransitions.Add(transition);
-            return transition;
         }
 
         public virtual void OnEnter() {
@@ -64,5 +66,29 @@ namespace Assets.Scripts.Refactoring {
 
     public class FSMState : FSMState<string> {
         public FSMState(string state) : base(state) { }
+    }
+
+    public class PlayerState : FSMState<PlayerEnumStates> {
+        protected PlayerCore core;
+        protected PlayerController controller;
+
+        public PlayerState(PlayerEnumStates state) : base(state) { }
+
+        /// <summary>
+        /// 在该层次状态机中, 从此状态转变到其他状态
+        /// </summary>
+        /// <param name="toState">目标状态</param>
+        /// <param name="cond">条件</param>
+        protected void InitialTransition(PlayerEnumStates toState, Func<bool> cond) {
+            var transition = new PlayerTransition(stateType, toState);
+            transition.AddCondition(cond);
+            AddTransition(transition);
+        }
+
+        public void OnInit(PlayerController tcontroller, PlayerCore tcore) {
+            controller = tcontroller;
+            core = tcore;
+        }
+
     }
 }
