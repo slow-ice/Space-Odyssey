@@ -11,7 +11,10 @@ namespace Assets.Scripts.Model.Player {
         public int health;
 
         [Header("Move params")]
-        public float maxMoveSpeed;
-        public float speedAcceleration;
+        public float maxMoveSpeed = 3f;
+        public float accelerationTime = 1f;
+        public float decelerationTime = 1f;
+
+        public float rotateSpeed = 3f;
     }
 }

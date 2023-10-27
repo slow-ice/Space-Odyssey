@@ -11,6 +11,9 @@ namespace Assets.Scripts.Utility.Input_System {
             private set { }
         }
 
+        bool moveInput;
+        public bool Move { get { return moveInput; } private set { } }
+
         Vector2 mouseInput;
         public Vector2 MousePosition {  get { return mouseInput; } private set {  } }
 
@@ -18,6 +21,8 @@ namespace Assets.Scripts.Utility.Input_System {
             inputActions = new InputControl();
 
             inputActions.Player.Mouse.performed += ctx => mouseInput = ctx.ReadValue<Vector2>();
+            inputActions.Player.Move.started += ctx => moveInput = true;
+            inputActions.Player.Move.canceled += ctx => moveInput = false;
 
             inputActions.Enable();
         }
