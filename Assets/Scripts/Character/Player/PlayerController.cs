@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour, IController
     IOCContainer mContainer = new IOCContainer();
     PlayerFSM RootFSM;
 
-    PlayerModel mModel;
+    public PlayerModel mModel;
 
     private void Awake() {
         OnComponentInit();
@@ -54,7 +54,8 @@ public class PlayerController : MonoBehaviour, IController
 
     void InitModel() {
         mModel = this.GetModel<PlayerModel>();
-        mModel.InitRuntimeData(mPlayerData.health);
+        mModel.InitRuntimeData(mPlayerData);
+        mCore.mModel = mModel;
     }
 
     #region FSM

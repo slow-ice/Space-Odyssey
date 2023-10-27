@@ -81,7 +81,7 @@ public partial class @InputControl : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""f9a93901-d31f-47e7-ada4-2611f6788b35"",
-                    ""path"": """",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

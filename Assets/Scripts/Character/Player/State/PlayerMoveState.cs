@@ -20,6 +20,11 @@ namespace Assets.Scripts.Character.Player.State {
             Debug.Log("Enter move");
         }
 
+        public override void OnUpdate() {
+            base.OnUpdate();
+            core.TakeFire();
+        }
+
         public override void OnFixedUpdate() {
             base.OnFixedUpdate();
             core.Move();

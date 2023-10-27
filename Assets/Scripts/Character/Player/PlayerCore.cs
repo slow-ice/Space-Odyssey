@@ -2,6 +2,8 @@
 
 using Assets.Scripts.Model.Player;
 using Assets.Scripts.Utility.Input_System;
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Scripts.Character {
@@ -10,13 +12,19 @@ namespace Assets.Scripts.Character {
         public Rigidbody2D mRigidbody { get; private set; }
         public PlayerController mController { get; private set; }
         public PlayerData_SO mPlayerData { get; private set; }
-
+        public PlayerModel mModel { get; set; }
 
         Vector2 mouseWorldPos = Vector2.zero;
         Vector2 moveDir = Vector2.zero;
         Vector2 workSpace = Vector2.zero;
+
         float curSpeed;
         float workSpeed;
+
+        public bool isOnAttack { get; private set; }
+        public bool canAttack { get; private set; } = true;
+
+        float attackStopTime;
 
         public PlayerCore(PlayerController playerController) { 
             mController = playerController;
@@ -53,9 +61,47 @@ namespace Assets.Scripts.Character {
         }
 
         public void TakeFire() {
-            if (InputManager.Instance.Fire) {
-
+            if (InputManager.Instance.Fire && canAttack) {
+                isOnAttack = true;
+                if (mModel.Energy.Value > 0) {
+                    FireTrace();
+                }
+                else {
+                    FireForward();
+                }
+                canAttack = false;
+                mController.StartCoroutine(SetAttackCoolDown(mPlayerData.attackCoolDown));
             }
+            else {
+                if (isOnAttack) {
+                    attackStopTime = Time.time;
+                    isOnAttack = false;
+                }
+                if (Time.time >  attackStopTime + mPlayerData.resetTime) {
+                    Debug.Log("can absorb");
+                }
+            }
+        }
+
+        void FireForward() {
+            Debug.Log("Fire forward");
+        }
+
+        void FireTrace() {
+            Debug.Log("Fire trace");
+        }
+
+        IEnumerator ResetIsOnAttack(float time) {
+            yield return new WaitForSeconds(time);
+            isOnAttack = false;
+        }
+
+        IEnumerator SetAttackCoolDown(float time) {
+            if (canAttack) {
+                yield break;
+            }
+            yield return new WaitForSeconds(time);
+            canAttack = true;
         }
 
         public void CheckAbsorb() {
