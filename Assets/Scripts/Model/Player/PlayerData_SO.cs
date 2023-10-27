@@ -8,7 +8,10 @@ using UnityEngine;
 namespace Assets.Scripts.Model.Player {
     [CreateAssetMenu(menuName = "Player/Player Data")]
     public class PlayerData_SO : ScriptableObject {
-        public int health;
+        [Header("Attributes")]
+        public int health = 100;
+        public int maxEnergy = 350;
+        public float absorbRadius = 3f;
 
         [Header("Move params")]
         public float maxMoveSpeed = 3f;

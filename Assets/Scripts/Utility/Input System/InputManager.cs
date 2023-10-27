@@ -21,8 +21,12 @@ namespace Assets.Scripts.Utility.Input_System {
             inputActions = new InputControl();
 
             inputActions.Player.Mouse.performed += ctx => mouseInput = ctx.ReadValue<Vector2>();
+
             inputActions.Player.Move.started += ctx => moveInput = true;
             inputActions.Player.Move.canceled += ctx => moveInput = false;
+
+            inputActions.Player.FIre.started += ctx => fireInput = true;
+            inputActions.Player.FIre.canceled += ctx => fireInput = false;
 
             inputActions.Enable();
         }
