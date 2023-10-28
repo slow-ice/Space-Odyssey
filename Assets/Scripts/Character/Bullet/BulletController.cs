@@ -18,7 +18,7 @@ namespace Assets.Scripts.Character.Bullet {
 
         Vector3 initEulerAngle;
 
-        public int damage { get; set; }
+        public int damage = 50;
 
 
         public bool IsTracingMode { get; set; }
@@ -48,7 +48,8 @@ namespace Assets.Scripts.Character.Bullet {
 
         // TODO: 待更改
         private void OnTriggerEnter2D(Collider2D collision) {
-            if (collision.CompareTag("Enemy")) {
+            if (collision.TryGetComponent<EnemyBase>(out var enemyBase)) {
+                enemyBase.damaged(damage);
                 parentPool.Recycle(gameObject, null);
             }
         }
