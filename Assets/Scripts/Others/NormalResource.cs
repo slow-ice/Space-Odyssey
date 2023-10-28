@@ -31,7 +31,6 @@ namespace Assets.Scripts.Others {
                     ref workVelo, SmoothTime);
                 yield return null;
             }
-            Debug.Log("fade");
             parentPool.Recycle(gameObject, () => {
                 StopAllCoroutines();
             });

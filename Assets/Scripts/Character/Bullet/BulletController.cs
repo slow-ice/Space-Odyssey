@@ -12,6 +12,7 @@ namespace Assets.Scripts.Character.Bullet {
         public ObjectPool parentPool;
         Collider2D Collider2D;
         TrailRenderer TrailRenderer;
+        public ParticleSystem HitParticle;
 
         public float moveSpeed;
         public float rotateSpeed = 1f;
@@ -30,6 +31,7 @@ namespace Assets.Scripts.Character.Bullet {
         private void Awake() {
             parentPool = GetComponentInParent<ObjectPool>();
             TrailRenderer = GetComponent<TrailRenderer>();
+            HitParticle = GetComponentInChildren<ParticleSystem>();
         }
 
         private void OnEnable() {
@@ -54,6 +56,7 @@ namespace Assets.Scripts.Character.Bullet {
         private void OnTriggerEnter2D(Collider2D collision) {
             if (collision.TryGetComponent<EnemyBase>(out var enemyBase)) {
                 enemyBase.damaged(damage);
+                HitParticle.Play(true);
                 parentPool.Recycle(gameObject, null);
             }
         }
