@@ -17,12 +17,12 @@ public class UMenu : MonoBehaviour
         
     }
 
-    void UQuit()
+    public void UQuit()
     {
         Application.Quit();
     }
 
-    void UPlay()
+    public void UPlay()
     {
         SceneManager.LoadScene("other scene");
     }

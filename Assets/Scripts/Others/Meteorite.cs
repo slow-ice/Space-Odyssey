@@ -30,16 +30,5 @@ public class Meteorite : MonoBehaviour
 
     }
     
-    /// <summary>
-    /// 由玩家脚本调用，减少生命值
-    /// </summary>
-    /// <param name="dmg"></param>
-    public void damaged(float dmg)
-    {
-        current_HP -= dmg;
-        if(current_HP < minHP)
-        {
-            DestoryMe();
-        }
-    }
+    
 }

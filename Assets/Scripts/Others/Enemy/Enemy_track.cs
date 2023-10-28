@@ -5,16 +5,38 @@ using UnityEngine;
 // 引用外部命名空间
 using Assets.Scripts.Character;
 
-public class Enemy_track : MonoBehaviour
+public class Enemy_track : EnemyBase
 {
     [SerializeField] float speed = 10;
-    [SerializeField] float hp = 100;
 
     // TODO : 获取玩家的Transform
     Transform pTrasfrom;
 
-    void Start()
+    #region 基本逻辑
+    public override void damaged(int dmg)
     {
+        base.damaged(dmg);
+    }
+
+    public override void die()
+    {
+        Debug.Log("击杀");
+        Destroy(this.gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            Debug.Log("碰到玩家，爆炸");
+            die();
+        }
+    }
+    #endregion 
+
+    new void Start()
+    {
+        base.Start();
         pTrasfrom = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
@@ -31,24 +53,13 @@ public class Enemy_track : MonoBehaviour
         {
             Debug.Log("找不到玩家，玩家死亡");
         }
-        
-    }
 
-    void ZeroHP()
-    {
-
-    }
-
-    /// <summary>
-    /// 由玩家脚本调用，减少生命值
-    /// </summary>
-    /// <param name="dmg"></param>
-    public void damaged(float dmg)
-    {
-        hp -= dmg;
-        if (hp < 0)
+        if (currentHP <= 0)
         {
-            ZeroHP();
+            die();
         }
+
     }
+
+    
 }

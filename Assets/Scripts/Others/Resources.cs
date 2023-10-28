@@ -1,19 +1,17 @@
+using Assets.Scripts.Character.Resource;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 // 可被吸收的资源
-public class Resources 
+public class Resources : MonoBehaviour, IAbsorb
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    // 该资源的energy
+    [SerializeField] int energy;
 
-    // Update is called once per frame
-    void Update()
+    public int GetEnergy()
     {
-        
-    }  
+        Debug.Log("吸收能量");
+        return energy;
+    }    
 }
