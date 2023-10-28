@@ -46,6 +46,10 @@ public class PlayerController : MonoBehaviour, IController
         RootFSM.OnFixedUpdate();
     }
 
+    private void OnDrawGizmos() {
+        Gizmos.DrawWireSphere(transform.position, mPlayerData.absorbRadius);
+    }
+
     void OnComponentInit() {
         mRigidbody = GetComponent<Rigidbody2D>();
 

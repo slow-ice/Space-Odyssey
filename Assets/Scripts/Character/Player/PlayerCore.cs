@@ -13,6 +13,7 @@ namespace Assets.Scripts.Character {
     public class PlayerCore {
         public Transform mTransform { get; private set; }
         public Rigidbody2D mRigidbody { get; private set; }
+        public SpriteRenderer mSpriteRenderer { get; private set; }
         public PlayerController mController { get; private set; }
         public PlayerData_SO mPlayerData { get; private set; }
         public PlayerModel mModel { get; set; }
@@ -41,6 +42,7 @@ namespace Assets.Scripts.Character {
         public void OnInit() {
             mPlayerData = mController.PlayerData;
             mRigidbody = mController.GetComponent<Rigidbody2D>();
+            mSpriteRenderer = mController.GetComponent<SpriteRenderer>();
             mPool = mTransform.parent.GetComponentInChildren<ObjectPool>();
         }
 
@@ -123,6 +125,8 @@ namespace Assets.Scripts.Character {
 
         #endregion
 
+        #region Absorb
+
         bool outAttack = true;
         public bool canAbsorb {
             get {
@@ -142,9 +146,32 @@ namespace Assets.Scripts.Character {
             var colls = Physics2D.OverlapCircleAll(mTransform.position, mPlayerData.absorbRadius);
             foreach (var coll in colls) {
                 if (coll.TryGetComponent<IAbsorb>(out var absorbale)) {
+                    absorbale.OnAbsorbAction(mTransform);
                     mModel.ChangeEnergy(absorbale.GetEnergy());
                 }
             }
+        }
+        #endregion
+
+        public void CheckBounds() {
+            var viewportPos = Camera.main.WorldToViewportPoint(mTransform.position);
+            if (viewportPos.x < 0) {
+                mTransform.position = Camera.main.ViewportToWorldPoint(new Vector3(
+                    viewportPos.x + 1, viewportPos.y, viewportPos.z));
+            }
+            else if (viewportPos.x > 1 ) {
+                mTransform.position = Camera.main.ViewportToWorldPoint(new Vector3(
+                    viewportPos.x - 1, viewportPos.y, viewportPos.z));
+            }
+            if (viewportPos.y < 0) {
+                mTransform.position = Camera.main.ViewportToWorldPoint(new Vector3(
+                    viewportPos.x, viewportPos.y + 1, viewportPos.z));
+            }
+            else if (viewportPos.y > 1) {
+                mTransform.position = Camera.main.ViewportToWorldPoint(new Vector3(
+                    viewportPos.x, viewportPos.y - 1, viewportPos.z));
+            }
+            
         }
     }
 }

@@ -23,6 +23,7 @@ namespace Assets.Scripts.Character.Player.State {
         public override void OnUpdate() {
             base.OnUpdate();
             core.TakeFire();
+            core.CheckBounds();
         }
 
         public override void OnFixedUpdate() {
