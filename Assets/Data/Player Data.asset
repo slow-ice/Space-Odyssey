@@ -13,7 +13,13 @@ MonoBehaviour:
   m_Name: Player Data
   m_EditorClassIdentifier: 
   health: 10
-  maxMoveSpeed: 10
+  maxEnergy: 350
+  absorbRadius: 3
+  maxMoveSpeed: 25
   accelerationTime: 1
   decelerationTime: 1
   rotateSpeed: 5
+  attackValue: 1
+  attackCost: 1
+  attackCoolDown: 0.1
+  resetTime: 0.5
