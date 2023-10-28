@@ -43,9 +43,7 @@ namespace Assets.Scripts.Utility.Pool {
         }
 
         public void InitPool(int poolSize, GameObject prefab) {
-            Debug.Log(poolSize);
             Pool = new List<GameObject>(poolSize);
-            Debug.Log(Pool.Count);
             GameObject gameObject;
             for (int i = 0; i < poolSize; i++) {
                 gameObject = Instantiate(poolObject, poolRoot);

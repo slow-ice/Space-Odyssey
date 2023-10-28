@@ -28,6 +28,7 @@ namespace Assets.Scripts.Character.Player.State {
         public override void OnFixedUpdate() {
             base.OnFixedUpdate();
             core.Move();
+            core.CheckAbsorb();
         }
     }
 }
