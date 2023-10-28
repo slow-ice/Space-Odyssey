@@ -11,6 +11,7 @@ namespace Assets.Scripts.Character.Bullet {
         public Quaternion rotation;
         public ObjectPool parentPool;
         Collider2D Collider2D;
+        TrailRenderer TrailRenderer;
 
         public float moveSpeed;
         public float rotateSpeed = 1f;
@@ -28,9 +29,12 @@ namespace Assets.Scripts.Character.Bullet {
 
         private void Awake() {
             parentPool = GetComponentInParent<ObjectPool>();
+            TrailRenderer = GetComponent<TrailRenderer>();
         }
 
         private void OnEnable() {
+            TrailRenderer.enabled = true;
+            TrailRenderer.Clear();
             transCaches = null;
             targetTransfom = null;
             initEulerAngle = transform.eulerAngles;
@@ -58,6 +62,7 @@ namespace Assets.Scripts.Character.Bullet {
             if (IsTracingMode) {
                 if (targetTransfom != null && !targetTransfom.gameObject.activeSelf) {
                     IsTracingMode = false;
+                    initEulerAngle = transform.eulerAngles;
                 }
                 MoveTrace();
             }
@@ -74,7 +79,11 @@ namespace Assets.Scripts.Character.Bullet {
         void MoveTrace() {
             FindTarget();
             if (targetTransfom == null) {
-                parentPool.Recycle(gameObject, null);
+                TrailRenderer.enabled = false;
+                parentPool.Recycle(gameObject, () => {
+                    IsTracingMode = false;
+                    transCaches = null;
+                });
                 return;
             }
             transform.up = Vector3.Slerp(transform.up, targetTransfom.position - transform.position,
@@ -101,6 +110,7 @@ namespace Assets.Scripts.Character.Bullet {
 
         void CheckDestroy() {
             if (!IsInScreen()) {
+                TrailRenderer.enabled = false;
                 parentPool.Recycle(gameObject, () => {
                     IsTracingMode = false;
                     transCaches = null;

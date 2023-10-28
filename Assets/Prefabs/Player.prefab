@@ -81,7 +81,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poolSize: 25
   maxRecycleTime: 0
-  poolObject: {fileID: 3318090260865794399, guid: 6881e8a2962cc8e4c9fa696da9f05d4f, type: 3}
+  poolObject: {fileID: 8010861308631447013, guid: faa769f61a449d44fbee61a678d922b4, type: 3}
   poolRoot: {fileID: 7811132498277081323}
   Pool: []
 --- !u!1 &7811132498477226130
