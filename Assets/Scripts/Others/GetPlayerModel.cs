@@ -14,10 +14,11 @@ public class GetPlayerModel : Singleton<GetPlayerModel>, IController
         return GameArchitecture.Interface;
     }
 
-    PlayerModel pm;
+    public PlayerModel pm;
 
-    float hp;
-    float mp;
+    [Header("public just for debug")]
+    public float hp;
+    public float mp;
 
     // Start is called before the first frame update
     void Start()

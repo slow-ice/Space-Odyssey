@@ -20,15 +20,16 @@ public class Enemy_track : EnemyBase
 
     public override void die()
     {
-        Debug.Log("击杀");
+        Debug.Log("敌人死亡");
         Destroy(this.gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
-        {
-            Debug.Log("碰到玩家，爆炸");
+        {          
+            GetPlayerModel.Instance.pm.ChangeHealth(-enemyData.damage);
+            Debug.Log($"碰到玩家，玩家生命流失 {enemyData.damage}");
             die();
         }
     }
@@ -60,6 +61,4 @@ public class Enemy_track : EnemyBase
         }
 
     }
-
-    
 }

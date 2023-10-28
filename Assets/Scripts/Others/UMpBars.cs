@@ -1,3 +1,4 @@
+using Assets.Scripts.Model.Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,13 +7,15 @@ using UnityEngine.UI;
 //分段式能量条
 public class UMpBars : MonoBehaviour
 {
+    //获取初始化信息
+    public PlayerData_SO initData;
+
     //存储4个能量条
     public Image[] mpbars;
     //一个阶段的MP要多少能量
-    public float MP = 100f;
+    public float MP;
 
-    //方便调试
-    public float currentMP;
+    float currentMP;
 
     int level;
     float level_MP;
@@ -20,7 +23,8 @@ public class UMpBars : MonoBehaviour
     void Start()
     {
         //TODO : 接受玩家model的mp值
-        currentMP = 50;
+        MP = initData.maxEnergy / 4;
+        currentMP = 0;
     }
 
     void Update()
@@ -30,6 +34,9 @@ public class UMpBars : MonoBehaviour
      
     void FillMPBar()
     {
+        //获取model的当前能量值
+        currentMP = GetPlayerModel.Instance.pm.Energy;
+
         level = (int)(currentMP / MP);
         level_MP = currentMP - level  * MP;
 

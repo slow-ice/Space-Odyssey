@@ -9,6 +9,8 @@ namespace Assets.Scripts.Model.Player {
         public BindableProperty<int> Energy { get; set; }
         public int attackValue { get; set; }
 
+     
+
         protected override void OnInit() {
 
         }
@@ -17,7 +19,7 @@ namespace Assets.Scripts.Model.Player {
             Health = new BindableProperty<int>(playerData.health);
             Energy = new BindableProperty<int>(0);
             attackValue = playerData.attackValue;
-
+            
             RegisterHealthEvent();
         }
 
