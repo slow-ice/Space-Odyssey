@@ -17,7 +17,13 @@ namespace Assets.Scripts.Model.Player {
         public float maxMoveSpeed = 3f;
         public float accelerationTime = 1f;
         public float decelerationTime = 1f;
-
         public float rotateSpeed = 3f;
+
+
+        [Header("Attack Params")]
+        public int attackValue = 1;
+        public int attackCost = 1;
+        public float attackCoolDown = 0.1f;
+        public float resetTime = 0.5f;
     }
 }
