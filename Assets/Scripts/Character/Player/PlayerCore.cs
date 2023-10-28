@@ -1,7 +1,9 @@
 ﻿
 
+using Assets.Scripts.Character.Bullet;
 using Assets.Scripts.Model.Player;
 using Assets.Scripts.Utility.Input_System;
+using Assets.Scripts.Utility.Pool;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,6 +15,7 @@ namespace Assets.Scripts.Character {
         public PlayerController mController { get; private set; }
         public PlayerData_SO mPlayerData { get; private set; }
         public PlayerModel mModel { get; set; }
+        public ObjectPool mPool { get; private set; }
 
         Vector2 mouseWorldPos = Vector2.zero;
         Vector2 moveDir = Vector2.zero;
@@ -26,6 +29,8 @@ namespace Assets.Scripts.Character {
 
         float attackStopTime;
 
+        public BulletStrategy bulletStrategy { get; private set; } = new BulletStrategy();
+
         public PlayerCore(PlayerController playerController) { 
             mController = playerController;
             mTransform = mController.GetComponent<Transform>();
@@ -34,6 +39,7 @@ namespace Assets.Scripts.Character {
         public void OnInit() {
             mPlayerData = mController.PlayerData;
             mRigidbody = mController.GetComponent<Rigidbody2D>();
+            mPool = mTransform.parent.GetComponentInChildren<ObjectPool>();
         }
 
         public void Move() {
@@ -78,13 +84,15 @@ namespace Assets.Scripts.Character {
                     isOnAttack = false;
                 }
                 if (Time.time >  attackStopTime + mPlayerData.resetTime) {
-                    Debug.Log("can absorb");
+                    //Debug.Log("can absorb");
                 }
             }
         }
 
         void FireForward() {
             Debug.Log("Fire forward");
+            //bulletStrategy.SetMoveMode()
+            mPool.Spawn(mTransform.position, mTransform.rotation, null);
         }
 
         void FireTrace() {
@@ -103,6 +111,10 @@ namespace Assets.Scripts.Character {
             yield return new WaitForSeconds(time);
             canAttack = true;
         }
+
+        //void BulletMoveForword(GameObject gameObject) {
+        //    var trans = gameObject.transform
+        //}
 
         public void CheckAbsorb() {
 
