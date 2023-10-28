@@ -37,12 +37,17 @@ public class PlayerController : MonoBehaviour, IController
         RootFSM.OnUpdate();
 
         if (Input.GetKeyDown(KeyCode.E)) {
-            Debug.Log("model health: " + mModel.Health.Value);
+            mModel.ChangeEnergy(5);
+            Debug.Log("energy: " + mModel.Energy.Value);
         }
     }
 
     private void FixedUpdate() {
         RootFSM.OnFixedUpdate();
+    }
+
+    private void OnDrawGizmos() {
+        Gizmos.DrawWireSphere(transform.position, mPlayerData.absorbRadius);
     }
 
     void OnComponentInit() {

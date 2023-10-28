@@ -12,6 +12,8 @@ namespace Assets.Scripts.Model.Player {
         public int health = 100;
         public int maxEnergy = 350;
         public float absorbRadius = 3f;
+        public float attackToAbsorbTime = 0.5f;
+        public float trailParticleFadeSpeed = 1f;
 
         [Header("Move params")]
         public float maxMoveSpeed = 3f;

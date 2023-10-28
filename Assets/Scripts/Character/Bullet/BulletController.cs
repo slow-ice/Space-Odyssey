@@ -1,21 +1,45 @@
 ﻿using Assets.Scripts.Utility.Pool;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+
 using UnityEngine;
 
 namespace Assets.Scripts.Character.Bullet {
     public class BulletController : MonoBehaviour {
         public BulletStrategy BulletStrategy { get; private set; }
-        public float moveSpeed;
         public Quaternion rotation;
-
         public ObjectPool parentPool;
+        Collider2D Collider2D;
+        TrailRenderer TrailRenderer;
+
+        public float moveSpeed;
+        public float rotateSpeed = 1f;
+        public float maxInitAngle;
+
+        Vector3 initEulerAngle;
+
+        public int damage = 50;
+
+
+        public bool IsTracingMode { get; set; }
+
+        Transform targetTransfom;
+        List<Transform> transCaches;
 
         private void Awake() {
             parentPool = GetComponentInParent<ObjectPool>();
+            TrailRenderer = GetComponent<TrailRenderer>();
         }
 
         private void OnEnable() {
-            Debug.Log("bullet enable");
+            TrailRenderer.enabled = true;
+            TrailRenderer.Clear();
+            transCaches = null;
+            targetTransfom = null;
+            initEulerAngle = transform.eulerAngles;
+            transform.eulerAngles = transform.eulerAngles + new Vector3(0, 0, maxInitAngle) *
+                    (UnityEngine.Random.Range(-1f, 1f) > 0 ? 1 : -1);
         }
 
         private void Update() {
@@ -23,17 +47,74 @@ namespace Assets.Scripts.Character.Bullet {
         }
 
         private void FixedUpdate() {
-            MoveForward();
+            CheckMoveMode();
+        }
+
+        // TODO: 待更改
+        private void OnTriggerEnter2D(Collider2D collision) {
+            if (collision.TryGetComponent<EnemyBase>(out var enemyBase)) {
+                enemyBase.damaged(damage);
+                parentPool.Recycle(gameObject, null);
+            }
+        }
+
+        void CheckMoveMode() {
+            if (IsTracingMode) {
+                if (targetTransfom != null && !targetTransfom.gameObject.activeSelf) {
+                    IsTracingMode = false;
+                    initEulerAngle = transform.eulerAngles;
+                }
+                MoveTrace();
+            }
+            else {
+                MoveForward();
+            }
         }
 
         void MoveForward() {
-            Debug.Log("bullet move");
+            transform.eulerAngles = initEulerAngle;
             transform.position += moveSpeed * transform.up * Time.fixedDeltaTime;
+        }
+
+        void MoveTrace() {
+            FindTarget();
+            if (targetTransfom == null) {
+                TrailRenderer.enabled = false;
+                parentPool.Recycle(gameObject, () => {
+                    IsTracingMode = false;
+                    transCaches = null;
+                });
+                return;
+            }
+            transform.up = Vector3.Slerp(transform.up, targetTransfom.position - transform.position,
+                1f / Vector2.Distance(transform.position, targetTransfom.position) * rotateSpeed);
+            Debug.Log(transform.up);
+            transform.position += transform.up * moveSpeed * Time.fixedDeltaTime;
+        }
+
+        void FindTarget() {
+            if (transCaches == null) {
+                transCaches = GameObject.FindGameObjectsWithTag("Enemy").
+                    Select(go => go.transform).ToList();
+                targetTransfom = null;
+                var minDis = 100000f;
+                foreach (Transform t in transCaches) {
+                    var dis = Vector3.Distance(t.position, transform.position);
+                    if (dis < minDis) {
+                        minDis = dis;
+                        targetTransfom = t;
+                    }
+                }
+            }
         }
 
         void CheckDestroy() {
             if (!IsInScreen()) {
-                parentPool.Recycle(gameObject, null);
+                TrailRenderer.enabled = false;
+                parentPool.Recycle(gameObject, () => {
+                    IsTracingMode = false;
+                    transCaches = null;
+                });
             }
         }
 
@@ -43,6 +124,10 @@ namespace Assets.Scripts.Character.Bullet {
                 return true;
             }
             return false;
+        }
+
+        public void SetTraceMode() {
+
         }
     }
 }

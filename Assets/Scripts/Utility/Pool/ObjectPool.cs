@@ -43,9 +43,7 @@ namespace Assets.Scripts.Utility.Pool {
         }
 
         public void InitPool(int poolSize, GameObject prefab) {
-            Debug.Log(poolSize);
             Pool = new List<GameObject>(poolSize);
-            Debug.Log(Pool.Count);
             GameObject gameObject;
             for (int i = 0; i < poolSize; i++) {
                 gameObject = Instantiate(poolObject, poolRoot);
@@ -54,12 +52,14 @@ namespace Assets.Scripts.Utility.Pool {
             }
             activeTimeList = Enumerable.Repeat(0f, poolSize).ToList();
         }
-
+        
+        // 回收
         public void Recycle(GameObject gameObject, Action onRecycleAction) {
             gameObject.SetActive(false);
             onRecycleAction?.Invoke();
         }
 
+        // 生成
         public GameObject Spawn(Vector3 postion, Quaternion rotation, Action<GameObject> onObjectSpawn) {
             // 第一个未激活对象
             var firstInactiveObject = Pool.FirstOrDefault(x => x.activeSelf == false);
