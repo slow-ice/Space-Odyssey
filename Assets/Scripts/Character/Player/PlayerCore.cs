@@ -100,12 +100,12 @@ namespace Assets.Scripts.Character {
 
         void FireTrace() {
             Debug.Log("Fire trace");
-            
+            mPool.Spawn(mTransform.position, mTransform.rotation, BulletTrace);
         }
 
         void BulletTrace(GameObject go) {
             var controller = go.GetComponent<BulletController>();
-
+            controller.IsTracingMode = true;
         }
 
         IEnumerator ResetIsOnAttack(float time) {
