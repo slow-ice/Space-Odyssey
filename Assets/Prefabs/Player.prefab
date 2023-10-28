@@ -390,6 +390,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 404385541960244887, guid: bf352d01584ebc8458fe9bef4bc2c22f, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 404385541960244887, guid: bf352d01584ebc8458fe9bef4bc2c22f, type: 3}
+      propertyPath: autoRandomSeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4841007571961730809, guid: bf352d01584ebc8458fe9bef4bc2c22f, type: 3}
       propertyPath: m_Name
       value: FlameParticle

@@ -18,10 +18,14 @@ namespace Assets.Scripts.Character {
         public PlayerData_SO mPlayerData { get; private set; }
         public PlayerModel mModel { get; set; }
         public ObjectPool mPool { get; private set; }
+        public ParticleSystem mParticleSystem { get; private set; }
 
         Vector2 mouseWorldPos = Vector2.zero;
         Vector2 moveDir = Vector2.zero;
         Vector2 workSpace = Vector2.zero;
+
+        Color particleColor = new Color(1, 1, 1, 0);
+        float particleAlpha = 0f;
 
         float curSpeed;
         float workSpeed;
@@ -43,6 +47,7 @@ namespace Assets.Scripts.Character {
             mPlayerData = mController.PlayerData;
             mRigidbody = mController.GetComponent<Rigidbody2D>();
             mSpriteRenderer = mController.GetComponent<SpriteRenderer>();
+            mParticleSystem = mController.GetComponentInChildren<ParticleSystem>();
             mPool = mTransform.parent.GetComponentInChildren<ObjectPool>();
         }
 
@@ -50,10 +55,12 @@ namespace Assets.Scripts.Character {
             RotateToMouse();
 
             if (InputManager.Instance.Move) {
+                CheckPlayParticle();
                 mRigidbody.velocity = Vector2.SmoothDamp(mRigidbody.velocity, moveDir * mPlayerData.maxMoveSpeed,
                     ref workSpace, mPlayerData.accelerationTime);
             }
             else {
+                CheckStopParticle();
                 mRigidbody.velocity = Vector2.Lerp(mRigidbody.velocity, Vector2.zero, mPlayerData.decelerationTime * Time.fixedDeltaTime);
             }
         }
@@ -68,6 +75,29 @@ namespace Assets.Scripts.Character {
                 var targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
                 mTransform.rotation = Quaternion.Slerp(mTransform.rotation, targetRotation, mPlayerData.rotateSpeed * Time.fixedDeltaTime);
             }
+        }
+
+        void CheckPlayParticle() {
+            SetParticleFade(1f);
+            if (!mParticleSystem.isPlaying) {
+                mParticleSystem.Play();
+            }
+        }
+        void CheckStopParticle() {
+            if (mParticleSystem.isPlaying) {
+                SetParticleFade(0f);
+            }
+            if (particleAlpha == 0f) {
+                mParticleSystem.Stop();
+            }
+        }
+
+        void SetParticleFade(float target) {
+            particleAlpha = Mathf.MoveTowards(particleAlpha, target,
+                    mPlayerData.trailParticleFadeSpeed * Time.fixedDeltaTime);
+            var color = new Color(1, 1, 1, particleAlpha);
+            var particleMain = mParticleSystem.main;
+            particleMain.startColor = color;
         }
 
         #region Fire

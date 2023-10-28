@@ -56,8 +56,7 @@ namespace Assets.Scripts.Character.Bullet {
 
         void CheckMoveMode() {
             if (IsTracingMode) {
-                if (targetTransfom != null && !targetTransfom.gameObject.activeSelf)
-                {
+                if (targetTransfom != null && !targetTransfom.gameObject.activeSelf) {
                     IsTracingMode = false;
                 }
                 MoveTrace();
