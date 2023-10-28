@@ -88,7 +88,6 @@ namespace Assets.Scripts.Character.Bullet {
             }
             transform.up = Vector3.Slerp(transform.up, targetTransfom.position - transform.position,
                 1f / Vector2.Distance(transform.position, targetTransfom.position) * rotateSpeed);
-            Debug.Log(transform.up);
             transform.position += transform.up * moveSpeed * Time.fixedDeltaTime;
         }
 

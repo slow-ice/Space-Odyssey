@@ -131,7 +131,6 @@ namespace Assets.Scripts.Character {
         }
 
         void FireTrace() {
-            Debug.Log("Fire trace");
             mPool.Spawn(mTransform.position, mTransform.rotation, BulletTrace);
         }
 
@@ -161,7 +160,7 @@ namespace Assets.Scripts.Character {
         public bool canAbsorb {
             get {
                 return outAttack &&
-                    mRigidbody.velocity.magnitude < mPlayerData.attackToAbsorbTime;
+                    mRigidbody.velocity.magnitude < mPlayerData.absorbEdgeMoveSpeed;
             }
         }
 
