@@ -8,6 +8,7 @@ using Assets.Scripts.Character;
 public class Enemy_track : MonoBehaviour
 {
     [SerializeField] float speed = 10;
+    [SerializeField] float hp = 100;
 
     // TODO : 获取玩家的Transform
     Transform pTrasfrom;
@@ -31,5 +32,23 @@ public class Enemy_track : MonoBehaviour
             Debug.Log("找不到玩家，玩家死亡");
         }
         
+    }
+
+    void ZeroHP()
+    {
+
+    }
+
+    /// <summary>
+    /// 由玩家脚本调用，减少生命值
+    /// </summary>
+    /// <param name="dmg"></param>
+    public void damaged(float dmg)
+    {
+        hp -= dmg;
+        if (hp < 0)
+        {
+            ZeroHP();
+        }
     }
 }
