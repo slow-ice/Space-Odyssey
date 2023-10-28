@@ -18,7 +18,7 @@ public class UHpBar : MonoBehaviour
     private void Update()
     {
         float healthPercentage = currentHP / maxHP;
-        Debug.Log("DD");
+       
         healthBarFill.fillAmount = healthPercentage;
     }
 
