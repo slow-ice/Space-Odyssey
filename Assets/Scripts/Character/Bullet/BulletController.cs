@@ -15,7 +15,6 @@ namespace Assets.Scripts.Character.Bullet {
         }
 
         private void OnEnable() {
-            Debug.Log("bullet enable");
         }
 
         private void Update() {
@@ -27,7 +26,6 @@ namespace Assets.Scripts.Character.Bullet {
         }
 
         void MoveForward() {
-            Debug.Log("bullet move");
             transform.position += moveSpeed * transform.up * Time.fixedDeltaTime;
         }
 
@@ -43,6 +41,10 @@ namespace Assets.Scripts.Character.Bullet {
                 return true;
             }
             return false;
+        }
+
+        public void SetTraceMode() {
+
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿
 
 using Assets.Scripts.Character.Bullet;
+using Assets.Scripts.Character.Resource;
 using Assets.Scripts.Model.Player;
 using Assets.Scripts.Utility.Input_System;
 using Assets.Scripts.Utility.Pool;
@@ -26,6 +27,7 @@ namespace Assets.Scripts.Character {
 
         public bool isOnAttack { get; private set; }
         public bool canAttack { get; private set; } = true;
+        
 
         float attackStopTime;
 
@@ -66,8 +68,10 @@ namespace Assets.Scripts.Character {
             }
         }
 
+        #region Fire
         public void TakeFire() {
             if (InputManager.Instance.Fire && canAttack) {
+                outAttack = false;
                 isOnAttack = true;
                 if (mModel.Energy.Value > 0) {
                     FireTrace();
@@ -84,19 +88,24 @@ namespace Assets.Scripts.Character {
                     isOnAttack = false;
                 }
                 if (Time.time >  attackStopTime + mPlayerData.resetTime) {
-                    //Debug.Log("can absorb");
+                    outAttack = true;
                 }
             }
         }
 
         void FireForward() {
-            Debug.Log("Fire forward");
             //bulletStrategy.SetMoveMode()
             mPool.Spawn(mTransform.position, mTransform.rotation, null);
         }
 
         void FireTrace() {
             Debug.Log("Fire trace");
+            
+        }
+
+        void BulletTrace(GameObject go) {
+            var controller = go.GetComponent<BulletController>();
+
         }
 
         IEnumerator ResetIsOnAttack(float time) {
@@ -112,21 +121,30 @@ namespace Assets.Scripts.Character {
             canAttack = true;
         }
 
-        //void BulletMoveForword(GameObject gameObject) {
-        //    var trans = gameObject.transform
-        //}
+        #endregion
+
+        bool outAttack = true;
+        public bool canAbsorb {
+            get {
+                return outAttack &&
+                    mRigidbody.velocity.magnitude < mPlayerData.attackToAbsorbTime;
+            }
+        }
 
         public void CheckAbsorb() {
-
+            if (canAbsorb) {
+                Absorb();
+                Debug.Log("absorbing!");
+            }
         }
 
         void Absorb() {
-            //var colls = Physics2D.OverlapCircleAll(mTransform.position, mPlayerData.absorbRadius);
-            //foreach (var coll in colls) {
-            //    if (coll.TryGetComponent<IAbsorbale>(out var absorbale)) {
-            //        absorbale.Absorb();
-            //    }
-            //}
+            var colls = Physics2D.OverlapCircleAll(mTransform.position, mPlayerData.absorbRadius);
+            foreach (var coll in colls) {
+                if (coll.TryGetComponent<IAbsorb>(out var absorbale)) {
+                    mModel.ChangeEnergy(absorbale.GetEnergy());
+                }
+            }
         }
     }
 }

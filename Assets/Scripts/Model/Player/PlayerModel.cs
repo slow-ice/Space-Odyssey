@@ -28,5 +28,13 @@ namespace Assets.Scripts.Model.Player {
                 }
             });
         }
+
+        public void ChangeHealth(int changeValue) {
+            Health.Value += changeValue;
+        }
+
+        public void ChangeEnergy(int changeValue) {
+            Energy.Value += changeValue;
+        }
     }
 }
