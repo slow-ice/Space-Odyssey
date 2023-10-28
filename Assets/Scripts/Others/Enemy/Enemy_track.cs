@@ -8,6 +8,7 @@ using Assets.Scripts.Character;
 public class Enemy_track : EnemyBase
 {
     [SerializeField] float speed = 10;
+    [SerializeField] float rotateSpeed = 5f;
 
     // TODO : 获取玩家的Transform
     Transform pTrasfrom;
@@ -47,7 +48,8 @@ public class Enemy_track : EnemyBase
         //改变位置进行追踪
         if (pTrasfrom)
         {
-            transform.up = pTrasfrom.position - transform.position;
+            transform.up = Vector3.Slerp(transform.up, pTrasfrom.position - transform.position
+                , rotateSpeed * Time.deltaTime);
             transform.Translate(Vector3.up * speed * Time.deltaTime);
         }
         else
