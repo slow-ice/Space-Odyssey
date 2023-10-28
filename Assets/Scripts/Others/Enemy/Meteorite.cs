@@ -1,3 +1,4 @@
+using Assets.Scripts.Character.Resource;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +16,7 @@ public class Meteorite : EnemyBase
     #region »ù±¾Âß¼­
     public override void damaged(int dmg)
     {
-        base.damaged(dmg);
+        //Òþ²Øº¯Êý
     }
 
     public override void die()

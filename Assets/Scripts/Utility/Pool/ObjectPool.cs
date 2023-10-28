@@ -52,12 +52,14 @@ namespace Assets.Scripts.Utility.Pool {
             }
             activeTimeList = Enumerable.Repeat(0f, poolSize).ToList();
         }
-
+        
+        // 回收
         public void Recycle(GameObject gameObject, Action onRecycleAction) {
             gameObject.SetActive(false);
             onRecycleAction?.Invoke();
         }
 
+        // 生成
         public GameObject Spawn(Vector3 postion, Quaternion rotation, Action<GameObject> onObjectSpawn) {
             // 第一个未激活对象
             var firstInactiveObject = Pool.FirstOrDefault(x => x.activeSelf == false);

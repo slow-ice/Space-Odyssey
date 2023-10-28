@@ -7,6 +7,8 @@ using Assets.Scripts.Character;
 
 public class Enemy_track : EnemyBase
 {
+    [SerializeField] float rotateSpeed = 5f;
+
     [SerializeField] float speed = 10;
 
     // TODO : 获取玩家的Transform
@@ -20,8 +22,7 @@ public class Enemy_track : EnemyBase
 
     public override void die()
     {
-        Debug.Log("敌人死亡");
-        Destroy(this.gameObject);
+        pool.Recycle(gameObject,null);   
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -29,7 +30,6 @@ public class Enemy_track : EnemyBase
         if (collision.CompareTag("Player"))
         {          
             GetPlayerModel.Instance.pm.ChangeHealth(-enemyData.damage);
-            Debug.Log($"碰到玩家，玩家生命流失 {enemyData.damage}");
             die();
         }
     }
@@ -41,13 +41,20 @@ public class Enemy_track : EnemyBase
         pTrasfrom = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
-    
+    // 由对象池重新生成时执行
+    private void OnEnable()
+    {
+        //重新生成时回满血
+        currentHP = enemyData.health;
+    }
+
     void Update()
     {
         //改变位置进行追踪
         if (pTrasfrom)
         {
-            transform.up = pTrasfrom.position - transform.position;
+            transform.up = Vector3.Slerp(transform.up, pTrasfrom.position - transform.position
+            , rotateSpeed * Time.deltaTime);
             transform.Translate(Vector3.up * speed * Time.deltaTime);
         }
         else

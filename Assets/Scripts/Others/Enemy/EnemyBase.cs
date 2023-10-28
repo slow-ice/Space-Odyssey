@@ -1,4 +1,5 @@
 using Assets.Scripts.Model.Enemy;
+using Assets.Scripts.Utility.Pool;
 using QFramework;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,12 +9,15 @@ using UnityEngine;
 public class EnemyBase : MonoBehaviour
 {
     public EnemyData_SO enemyData;
+    //对象池
+    public ObjectPool pool;
 
     protected int currentHP;
 
     //父类初始化生命
     protected void Start()
     {
+        pool = transform.parent.GetComponent<ObjectPool>();
         currentHP = enemyData.health;
     }
 
