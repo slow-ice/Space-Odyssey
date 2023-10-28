@@ -9,7 +9,7 @@ using UnityEngine;
 public class EnemyBase : MonoBehaviour
 {
     public EnemyData_SO enemyData;
-    //对象池
+    //敌人对象池
     public ObjectPool pool;
 
     protected int currentHP;
@@ -18,6 +18,7 @@ public class EnemyBase : MonoBehaviour
     protected void Start()
     {
         pool = transform.parent.GetComponent<ObjectPool>();
+        
         currentHP = enemyData.health;
     }
 

@@ -138,7 +138,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &199707834
 Transform:
   m_ObjectHideFlags: 0
@@ -482,6 +482,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: fbfd658e4f6674f4e938052e4e123927, type: 2}
+  pool: {fileID: 0}
+  dropThingsPool: {fileID: 0}
+  rotateSpeed: 5
   speed: 4
 --- !u!4 &567808813
 Transform:
@@ -608,7 +611,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8584559184014482114, guid: 7333cda4a31657440ba843ac5da5a5a6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7333cda4a31657440ba843ac5da5a5a6, type: 3}
@@ -761,7 +764,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8584559184014482114, guid: 7333cda4a31657440ba843ac5da5a5a6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7333cda4a31657440ba843ac5da5a5a6, type: 3}
@@ -854,7 +857,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8584559184014482114, guid: 7333cda4a31657440ba843ac5da5a5a6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7333cda4a31657440ba843ac5da5a5a6, type: 3}
@@ -969,6 +972,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: fbfd658e4f6674f4e938052e4e123927, type: 2}
+  pool: {fileID: 0}
+  dropThingsPool: {fileID: 0}
+  rotateSpeed: 5
   speed: 4
 --- !u!4 &1305672233
 Transform:
@@ -1025,7 +1031,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1344882959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1039,6 +1045,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 11529b7e514f1b94db04f711b6102fc2, type: 2}
+  pool: {fileID: 0}
+  dropThingsPool: {fileID: 0}
   minHP: 5
 --- !u!212 &1344882960
 SpriteRenderer:
@@ -1229,6 +1237,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: fbfd658e4f6674f4e938052e4e123927, type: 2}
+  pool: {fileID: 0}
+  dropThingsPool: {fileID: 0}
+  rotateSpeed: 5
   speed: 4
 --- !u!4 &1354570517
 Transform:
@@ -2049,7 +2060,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8584559184014482114, guid: 7333cda4a31657440ba843ac5da5a5a6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7333cda4a31657440ba843ac5da5a5a6, type: 3}

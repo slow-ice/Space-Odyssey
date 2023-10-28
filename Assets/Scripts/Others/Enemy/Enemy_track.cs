@@ -22,6 +22,7 @@ public class Enemy_track : EnemyBase
 
     public override void die()
     {
+        DropthingsManager.Instance.createDropThings(transform.position,transform.rotation);
         pool.Recycle(gameObject,null);   
     }
 

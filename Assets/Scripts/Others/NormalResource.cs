@@ -11,6 +11,13 @@ namespace Assets.Scripts.Others {
         public float fadeDistance = 0.5f;
         public float moveSpeed = 1f;
 
+        private new void Awake()
+        {
+            base.Awake();
+            //获取对象池
+            parentPool = GetComponentInParent<ObjectPool>();
+        }
+
         public override void OnAbsorbAction(Transform playerTrans) {
             if (!gameObject.activeSelf)
                 return;

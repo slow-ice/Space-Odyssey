@@ -38,6 +38,7 @@ public class UMpBars : MonoBehaviour
         currentMP = GetPlayerModel.Instance.pm.Energy;
 
         level = (int)(currentMP / MP);
+        
         level_MP = currentMP - level  * MP;
 
         //在其之前的条全部填满
@@ -52,6 +53,9 @@ public class UMpBars : MonoBehaviour
 
     void FullFill(int level)
     {
+        if(level >= 4)
+            level = 4;
+
         for( int i = 0; i < level; i++ )
         {
             mpbars[i].fillAmount = 1;

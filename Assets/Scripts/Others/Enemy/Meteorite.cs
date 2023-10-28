@@ -5,7 +5,7 @@ using UnityEngine;
 
 // 陨石脚本，用于被玩家吸收
 
-public class Meteorite : EnemyBase
+public class Meteorite : EnemyBase , IAbsorb
 {
     
     [SerializeField] float minHP; //最小生命值，小于此陨石消失
@@ -16,12 +16,22 @@ public class Meteorite : EnemyBase
     #region 基本逻辑
     public override void damaged(int dmg)
     {
-        //隐藏函数
+        //隐藏函数 因为陨石不受子弹伤害
     }
 
     public override void die()
     {
         base.die();
+    }
+
+    public int GetEnergy()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnAbsorbAction(Transform playerTrans)
+    {
+        throw new System.NotImplementedException();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
