@@ -12,7 +12,7 @@ public class EnemyBase : MonoBehaviour
     //敌人对象池
     public ObjectPool pool;
 
-    protected int currentHP;
+    protected float currentHP;
 
     //父类初始化生命
     protected void Start()
