@@ -20,7 +20,8 @@ namespace Assets.Scripts.Character {
         public PlayerModel mModel { get; set; }
         public ObjectPool mNormalBulletPool { get; private set; }
         public ObjectPool mSpecialBulletPool { get; private set; }
-        public ParticleSystem mParticleSystem { get; private set; }
+        public ParticleSystem mTraiParticles { get; private set; }
+        public ParticleSystem mBlackHoleParticle { get; private set; }
 
         Vector2 mouseWorldPos = Vector2.zero;
         Vector2 moveDir = Vector2.zero;
@@ -49,7 +50,8 @@ namespace Assets.Scripts.Character {
             mPlayerData = mController.PlayerData;
             mRigidbody = mController.GetComponent<Rigidbody2D>();
             mSpriteRenderer = mController.GetComponent<SpriteRenderer>();
-            mParticleSystem = mController.GetComponentInChildren<ParticleSystem>();
+            mTraiParticles = mTransform.Find("Trail").GetComponent<ParticleSystem>();
+            mBlackHoleParticle = mTransform.Find("BlackHole").GetComponent<ParticleSystem>();
 
             var normalPool = mTransform.parent.GetChild(3).GetChild(0).GetComponent<ObjectPool>();
             mNormalBulletPool = normalPool;
@@ -62,12 +64,12 @@ namespace Assets.Scripts.Character {
             RotateToMouse();
 
             if (InputManager.Instance.Move) {
-                CheckPlayParticle();
+                CheckPlayTrailParticle();
                 mRigidbody.velocity = Vector2.SmoothDamp(mRigidbody.velocity, moveDir * mPlayerData.maxMoveSpeed,
                     ref workSpace, mPlayerData.accelerationTime);
             }
             else {
-                CheckStopParticle();
+                CheckStopTrailParticle();
                 mRigidbody.velocity = Vector2.Lerp(mRigidbody.velocity, Vector2.zero, mPlayerData.decelerationTime * Time.fixedDeltaTime);
             }
         }
@@ -84,18 +86,18 @@ namespace Assets.Scripts.Character {
             }
         }
 
-        void CheckPlayParticle() {
+        void CheckPlayTrailParticle() {
             SetParticleFade(1f);
-            if (!mParticleSystem.isPlaying) {
-                mParticleSystem.Play();
+            if (!mTraiParticles.isPlaying) {
+                mTraiParticles.Play();
             }
         }
-        void CheckStopParticle() {
-            if (mParticleSystem.isPlaying) {
+        void CheckStopTrailParticle() {
+            if (mTraiParticles.isPlaying) {
                 SetParticleFade(0f);
             }
             if (particleAlpha == 0f) {
-                mParticleSystem.Stop();
+                mTraiParticles.Stop();
             }
         }
 
@@ -103,7 +105,7 @@ namespace Assets.Scripts.Character {
             particleAlpha = Mathf.MoveTowards(particleAlpha, target,
                     mPlayerData.trailParticleFadeSpeed * Time.fixedDeltaTime);
             var color = new Color(1, 1, 1, particleAlpha);
-            var particleMain = mParticleSystem.main;
+            var particleMain = mTraiParticles.main;
             particleMain.startColor = color;
         }
 
@@ -174,7 +176,13 @@ namespace Assets.Scripts.Character {
         public void CheckAbsorb() {
             if (canAbsorb) {
                 Absorb();
-                Debug.Log("absorbing!");
+                if (!mBlackHoleParticle.isPlaying) {
+                    mBlackHoleParticle.Play();
+                }
+            }
+            else {
+                if (mBlackHoleParticle.isPlaying)
+                    mBlackHoleParticle.Stop();
             }
         }
 

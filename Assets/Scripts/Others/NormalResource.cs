@@ -12,6 +12,8 @@ namespace Assets.Scripts.Others {
         public float SmoothTime = 1f;
         Vector2 workVelo;
 
+        bool isAbosorbStarted = false;
+
         private new void Awake()
         {
             base.Awake();
@@ -19,13 +21,18 @@ namespace Assets.Scripts.Others {
             parentPool = GetComponentInParent<ObjectPool>();
         }
 
+        private void OnEnable() {
+            isAbosorbStarted = false;
+        }
+
         public override void OnAbsorbAction(Transform playerTrans) {
-            if (!gameObject.activeSelf)
+            if (!gameObject.activeSelf && !isAbosorbStarted)
                 return;
             StartCoroutine(MoveToCenter(playerTrans));
         }
 
         IEnumerator MoveToCenter(Transform center) {
+            isAbosorbStarted = true;
             while (Vector2.Distance(transform.position, center.position) > fadeDistance) {
                 transform.position = Vector2.SmoothDamp(transform.position, center.position,
                     ref workVelo, SmoothTime);
