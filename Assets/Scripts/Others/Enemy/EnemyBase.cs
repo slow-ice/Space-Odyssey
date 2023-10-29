@@ -15,7 +15,7 @@ public class EnemyBase : MonoBehaviour
     protected float currentHP;
 
     //父类初始化生命
-    protected void Start()
+    protected virtual void Start()
     {
         //自动从父物体中获取对象池脚本
         pool = transform.parent.GetComponent<ObjectPool>();
@@ -23,7 +23,7 @@ public class EnemyBase : MonoBehaviour
         currentHP = enemyData.health;
     }
 
-    private void OnEnable() {
+    protected virtual void OnEnable() {
         currentHP = enemyData.health;
     }
 

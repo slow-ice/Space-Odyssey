@@ -1,6 +1,7 @@
 ﻿
 
 using Assets.Scripts.Character.Bullet;
+using Assets.Scripts.Utility.Pool;
 using System.Collections;
 using UnityEngine;
 
@@ -34,7 +35,13 @@ namespace Assets.Scripts.Others.Enemy {
             mPlayerTrans = GameObject.FindGameObjectWithTag("Player").transform;
         }
 
-        new void Start() {
+        protected override void Start() {
+            base.Start();
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
             SetRandomPatrol();
         }
 
@@ -121,7 +128,7 @@ namespace Assets.Scripts.Others.Enemy {
         }
 
         public override void die() {
-            Destroy(gameObject);
+            pool.Recycle(gameObject,null);
         }
     }
 }
