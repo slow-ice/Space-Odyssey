@@ -1,4 +1,5 @@
 using Assets.Scripts.Character.Resource;
+using Assets.Scripts.Utility.Pool;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -12,7 +13,7 @@ public class Meteorite : EnemyBase , IAbsorb
     [SerializeField] float minHP; //最小生命值，小于此陨石消失
     [SerializeField] float minSpawnHP, maxSpawnHP;
     [SerializeField] float speed = 10;
-
+    [SerializeField] float turnSpeed = 5f;
     
 
     float maxHP;
@@ -52,6 +53,11 @@ public class Meteorite : EnemyBase , IAbsorb
 
     #endregion
 
+    new void Start()
+    {
+        //自动从父物体中获取对象池脚本
+        pool = transform.parent.GetComponent<ObjectPool>();
+    }
 
     //被对象池调用时
     public void OnEnable()
@@ -64,6 +70,7 @@ public class Meteorite : EnemyBase , IAbsorb
         initScale = (maxHP / 50.0f) * Vector3.one;
         
         transform.localScale = initScale;
+       
     }
 
     new void Update()
@@ -74,12 +81,16 @@ public class Meteorite : EnemyBase , IAbsorb
         //根据生命决定大小
         transform.localScale = (currentHP / maxHP) * initScale;
 
-        transform.Translate(speed * Time.deltaTime, 0, 0);
+        //修改绝对位置
+        transform.Translate(speed * Time.deltaTime, 0, 0,Space.World);
+        transform.Rotate(0,0,10f * Time.deltaTime);
 
         if(currentHP < minHP)
         {
             die();
         }
+
+        
     }
 
     
