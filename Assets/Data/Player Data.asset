@@ -23,6 +23,7 @@ MonoBehaviour:
   decelerationTime: 1.8
   rotateSpeed: 5
   attackValue: 1
-  attackCost: 1
+  attackCost: 5
   attackCoolDown: 0.1
   resetTime: 0.5
+  minSpecialFireEnergy: 50
