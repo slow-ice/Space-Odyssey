@@ -25,5 +25,5 @@ MonoBehaviour:
   attackValue: 1
   attackCost: 2
   attackCoolDown: 0.1
-  resetTime: 0.5
+  resetTime: 0.25
   minSpecialFireEnergy: 50

@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour, IController
         InitModel();
         RegisterPlayerDie();
         blackHole = transform.GetChild(0);
+        InputManager.Instance.inputActions.Enable();
+        GetComponent<SpriteRenderer>().enabled = true;
     }
 
     void RegisterPlayerDie() {
@@ -48,7 +50,7 @@ public class PlayerController : MonoBehaviour, IController
             InputManager.Instance.inputActions.Disable();
             GetComponent<SpriteRenderer>().enabled = false;
             StartCoroutine(Bigger(2f));
-        });
+        }).UnRegisterWhenGameObjectDestroyed(gameObject);
     }
 
     IEnumerator Bigger(float time) {

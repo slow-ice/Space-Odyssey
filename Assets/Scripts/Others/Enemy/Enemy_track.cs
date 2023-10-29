@@ -34,9 +34,20 @@ public class Enemy_track : EnemyBase
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
-        {          
-            GetPlayerModel.Instance.pm.ChangeHealth(-enemyData.damage);
+        if (collision.TryGetComponent<PlayerController>(out var player))
+        {
+            var core = player.mCore;
+            if (core.canAbsorb) {
+                GetPlayerModel.Instance.pm.ChangeHealth(-enemyData.damage);
+            }
+            else {
+                if (GetPlayerModel.Instance.pm.Energy.Value > 0) {
+                    GetPlayerModel.Instance.pm.ChangeEnergy(-enemyData.damage * 2);
+                }
+                else {
+                    GetPlayerModel.Instance.pm.ChangeHealth(-enemyData.damage);
+                }
+            }
             isBeDestroyedByPlayer = false;
             die();
         }
