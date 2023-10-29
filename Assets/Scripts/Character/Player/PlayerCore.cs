@@ -216,6 +216,15 @@ namespace Assets.Scripts.Character {
         }
         #endregion
 
+        public void DealBulletHit(int damage, int energy) {
+            if (canAbsorb) {
+                mModel.ChangeEnergy(energy);
+            }
+            else {
+                mModel.ChangeEnergy(-damage);
+            }
+        }
+
         public void CheckBounds() {
             var viewportPos = Camera.main.WorldToViewportPoint(mTransform.position);
             if (viewportPos.x < 0) {

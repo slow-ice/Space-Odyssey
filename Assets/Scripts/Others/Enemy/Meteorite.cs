@@ -21,7 +21,7 @@ public class Meteorite : EnemyBase , IAbsorb
 
     public override void die()
     {
-        base.die();
+
     }
 
     public int GetEnergy()
