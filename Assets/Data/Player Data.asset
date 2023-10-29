@@ -15,11 +15,12 @@ MonoBehaviour:
   health: 300
   maxEnergy: 350
   absorbRadius: 1.94
-  absorbEdgeMoveSpeed: 0.7
+  absorbEdgeMoveSpeed: 1
   trailParticleFadeSpeed: 2
+  shieldScleSpeed: 1
   maxMoveSpeed: 10
   accelerationTime: 1
-  decelerationTime: 1
+  decelerationTime: 1.8
   rotateSpeed: 5
   attackValue: 1
   attackCost: 1

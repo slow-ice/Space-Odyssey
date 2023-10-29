@@ -139,4 +139,4 @@ MonoBehaviour:
   energy: 2
   parentPool: {fileID: 0}
   fadeDistance: 0.2
-  moveSpeed: 0.1
+  SmoothTime: 0.6

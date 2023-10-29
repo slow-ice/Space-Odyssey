@@ -148,13 +148,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 345e6ea538208c346b7bfa1d9fa20649, type: 2}
   pool: {fileID: 0}
+  currentHP: 0
   bulletPrefab: {fileID: 3318090260865794399, guid: 56602d72d4fb9e94e959014bc965ed5d, type: 3}
   randomPartrolTime: 2
   minPlayerDistance: 5
   patrolCoolDown: 2
   moveSpeed: 5
   fireNum: 10
-  fireInterval: 0.05
-  rotationRange: 90
-  fireCoolDown: 3
+  rotationRange: 120
+  fireCoolDown: 5
+  lastFireTime: 0
   mPlayerTrans: {fileID: 0}
