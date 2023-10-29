@@ -2,11 +2,14 @@
 
 using Assets.Scripts.Event;
 using QFramework;
+using System;
+using UnityEngine;
 
 namespace Assets.Scripts.Model.Player {
     public class PlayerModel : AbstractModel {
         public BindableProperty<int> Health { get; set; }
         public BindableProperty<int> Energy { get; set; }
+        public PlayerData_SO PlayerData { get; set; }
         public int attackValue { get; set; }
 
      
@@ -18,6 +21,7 @@ namespace Assets.Scripts.Model.Player {
         public void InitRuntimeData(PlayerData_SO playerData) {
             Health = new BindableProperty<int>(playerData.health);
             Energy = new BindableProperty<int>(0);
+            PlayerData = playerData;
             attackValue = playerData.attackValue;
             
             RegisterHealthEvent();
@@ -32,11 +36,13 @@ namespace Assets.Scripts.Model.Player {
         }
 
         public void ChangeHealth(int changeValue) {
-            Health.Value += changeValue;
+            var target = Health.Value + changeValue;
+            Health.Value = Mathf.Clamp(target, -10, PlayerData.health);
         }
 
         public void ChangeEnergy(int changeValue) {
-            Energy.Value += changeValue;
+            var target = Energy.Value + changeValue;
+            Energy.Value = Mathf.Clamp(target, 0, PlayerData.maxEnergy);
         }
     }
 }

@@ -17,7 +17,6 @@ namespace Assets.Scripts.Character.Player.State {
 
         public override void OnEnter() {
             base.OnEnter();
-            Debug.Log("Enter move");
         }
 
         public override void OnUpdate() {

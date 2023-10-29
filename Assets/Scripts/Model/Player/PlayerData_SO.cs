@@ -28,5 +28,6 @@ namespace Assets.Scripts.Model.Player {
         public int attackCost = 1;
         public float attackCoolDown = 0.1f;
         public float resetTime = 0.5f;
+        public int minSpecialFireEnergy = 50;
     }
 }

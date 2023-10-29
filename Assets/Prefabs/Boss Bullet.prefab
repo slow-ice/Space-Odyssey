@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTransfom: {fileID: 0}
-  rotateSpeed: 0.32
-  moveSpeed: 3
+  rotateSpeed: 0.1
+  moveSpeed: 2
   damage: 2
   energy: 2
