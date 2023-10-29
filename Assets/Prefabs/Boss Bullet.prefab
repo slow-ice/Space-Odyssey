@@ -118,8 +118,8 @@ MonoBehaviour:
   targetTransfom: {fileID: 0}
   rotateSpeed: 0.1
   moveSpeed: 2
-  damage: 2
-  energy: 2
+  damage: 3
+  energy: 5
 --- !u!96 &2850955299233845206
 TrailRenderer:
   serializedVersion: 2

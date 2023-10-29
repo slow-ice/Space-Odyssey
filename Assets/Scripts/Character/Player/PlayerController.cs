@@ -10,6 +10,7 @@ using QFramework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour, IController
@@ -24,7 +25,12 @@ public class PlayerController : MonoBehaviour, IController
     IOCContainer mContainer = new IOCContainer();
     PlayerFSM RootFSM;
 
+    Transform blackHole;
+    public Vector3 targetScale;
+    public float fadeTime;
+
     public PlayerModel mModel;
+
 
     private void Awake() {
         OnComponentInit();
@@ -34,13 +40,28 @@ public class PlayerController : MonoBehaviour, IController
     private void Start() {
         InitModel();
         RegisterPlayerDie();
+        blackHole = transform.GetChild(0);
     }
 
     void RegisterPlayerDie() {
         TypeEventSystem.Global.Register<PlayerDieEvent>(onEvent => {
             InputManager.Instance.inputActions.Disable();
             GetComponent<SpriteRenderer>().enabled = false;
+            StartCoroutine(Bigger(2f));
         });
+    }
+
+    IEnumerator Bigger(float time) {
+        var cur = 0f;
+        while (cur < time) {
+            mCore.mBlackHoleParticle.Play();
+            cur+= Time.deltaTime;
+            blackHole.localScale = Vector3.Lerp(blackHole.localScale, targetScale, Time.deltaTime 
+                * cur / time);
+            yield return null;
+        }
+        yield return new WaitForSeconds(fadeTime);
+        SceneManager.LoadSceneAsync("Gameover");
     }
 
     private void Update() {

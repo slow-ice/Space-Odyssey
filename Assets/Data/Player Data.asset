@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b61906e02fa7434694d73bfeded9fda, type: 3}
   m_Name: Player Data
   m_EditorClassIdentifier: 
-  health: 1000
+  health: 150
   maxEnergy: 350
   absorbRadius: 1.94
   absorbEdgeMoveSpeed: 1
@@ -23,7 +23,7 @@ MonoBehaviour:
   decelerationTime: 1.8
   rotateSpeed: 5
   attackValue: 1
-  attackCost: 5
+  attackCost: 3
   attackCoolDown: 0.1
   resetTime: 0.5
   minSpecialFireEnergy: 50
