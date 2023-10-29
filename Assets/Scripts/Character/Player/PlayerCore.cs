@@ -13,6 +13,7 @@ namespace Assets.Scripts.Character {
     public class PlayerCore {
         public Transform mTransform { get; private set; }
         public Transform mFirePosition {  get; private set; }
+        public Transform mShieldTrans { get; private set; }
         public Rigidbody2D mRigidbody { get; private set; }
         public SpriteRenderer mSpriteRenderer { get; private set; }
         public PlayerController mController { get; private set; }
@@ -22,6 +23,7 @@ namespace Assets.Scripts.Character {
         public ObjectPool mSpecialBulletPool { get; private set; }
         public ParticleSystem mTraiParticles { get; private set; }
         public ParticleSystem mBlackHoleParticle { get; private set; }
+        public ParticleSystem mAbsorbParticle { get; private set; }
 
         Vector2 mouseWorldPos = Vector2.zero;
         Vector2 moveDir = Vector2.zero;
@@ -52,12 +54,14 @@ namespace Assets.Scripts.Character {
             mSpriteRenderer = mController.GetComponent<SpriteRenderer>();
             mTraiParticles = mTransform.Find("Trail").GetComponent<ParticleSystem>();
             mBlackHoleParticle = mTransform.Find("BlackHole").GetComponent<ParticleSystem>();
+            mAbsorbParticle = mTransform.Find("Absorb").GetComponent<ParticleSystem>();
 
             var normalPool = mTransform.parent.GetChild(3).GetChild(0).GetComponent<ObjectPool>();
             mNormalBulletPool = normalPool;
             var specialPool = mTransform.parent.GetChild(3).GetChild(1).GetComponent<ObjectPool>();
             mSpecialBulletPool = specialPool;
             mFirePosition = mTransform.Find("Fire Position");
+            mShieldTrans = mTransform.Find("Shield");
         }
 
         public void Move() {
@@ -176,13 +180,20 @@ namespace Assets.Scripts.Character {
         public void CheckAbsorb() {
             if (canAbsorb) {
                 Absorb();
+                SetShieldTransform(1f);
                 if (!mBlackHoleParticle.isPlaying) {
                     mBlackHoleParticle.Play();
                 }
+                if (!mAbsorbParticle.isPlaying) {
+                    mAbsorbParticle.Play();
+                }
             }
             else {
+                SetShieldTransform(0.35f);
                 if (mBlackHoleParticle.isPlaying)
                     mBlackHoleParticle.Stop();
+                if (mAbsorbParticle.isPlaying)
+                    mAbsorbParticle.Stop();
             }
         }
 
@@ -194,6 +205,14 @@ namespace Assets.Scripts.Character {
                     mModel.ChangeEnergy(absorbale.GetEnergy());
                 }
             }
+        }
+
+        float shieldScale = 1f;
+
+        void SetShieldTransform(float target) {
+            shieldScale = Mathf.MoveTowards(shieldScale, target,
+                    mPlayerData.shieldScleSpeed * Time.fixedDeltaTime);
+            mShieldTrans.localScale = new Vector3(shieldScale, shieldScale, 1);
         }
         #endregion
 

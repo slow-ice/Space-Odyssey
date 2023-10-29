@@ -14,6 +14,7 @@ namespace Assets.Scripts.Model.Player {
         public float absorbRadius = 3f;
         public float absorbEdgeMoveSpeed = 0.5f;
         public float trailParticleFadeSpeed = 1f;
+        public float shieldScleSpeed = 1f;
 
         [Header("Move params")]
         public float maxMoveSpeed = 3f;

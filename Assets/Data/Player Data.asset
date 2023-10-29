@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   maxEnergy: 350
-  absorbRadius: 1.12
+  absorbRadius: 1.94
   absorbEdgeMoveSpeed: 0.7
   trailParticleFadeSpeed: 2
   maxMoveSpeed: 10
