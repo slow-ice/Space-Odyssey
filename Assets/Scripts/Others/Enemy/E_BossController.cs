@@ -131,6 +131,7 @@ namespace Assets.Scripts.Others.Enemy {
         }
 
         public override void die() {
+            CancelInvoke("InstanciateBullet");
             pool.Recycle(gameObject,null);
         }
     }
