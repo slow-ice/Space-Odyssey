@@ -155,7 +155,7 @@ MonoBehaviour:
   patrolCoolDown: 2
   moveSpeed: 5
   fireNum: 10
-  rotationRange: 60
-  fireCoolDown: 3
+  rotationRange: 120
+  fireCoolDown: 5
   lastFireTime: 0
   mPlayerTrans: {fileID: 0}
