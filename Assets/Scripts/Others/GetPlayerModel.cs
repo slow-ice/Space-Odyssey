@@ -26,6 +26,10 @@ public class GetPlayerModel : Singleton<GetPlayerModel>, IController
         pm = this.GetModel<PlayerModel>();
     }
 
+    private void OnEnable() {
+        pm.Health.Value = pm.PlayerData.health;
+    }
+
     // Update is called once per frame
     void Update()
     {

@@ -61,6 +61,7 @@ public class PlayerController : MonoBehaviour, IController
             yield return null;
         }
         yield return new WaitForSeconds(fadeTime);
+        GetPlayerModel.Instance.transform.gameObject.SetActive(false);
         SceneManager.LoadSceneAsync("Gameover");
     }
 
