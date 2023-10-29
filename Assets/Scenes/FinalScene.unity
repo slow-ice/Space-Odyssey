@@ -407,6 +407,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 84532190803204751, guid: c66fd3ebe9dc50641b3ca7dc5cd9125c, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 945230740}
+    - target: {fileID: 84532190803204751, guid: c66fd3ebe9dc50641b3ca7dc5cd9125c, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 84532190803204721, guid: c66fd3ebe9dc50641b3ca7dc5cd9125c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c66fd3ebe9dc50641b3ca7dc5cd9125c, type: 3}
@@ -520,10 +528,10 @@ MonoBehaviour:
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 2147483647
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
