@@ -49,8 +49,10 @@ public class Enemy_track : EnemyBase
         currentHP = enemyData.health;
     }
 
-    void Update()
+    new void Update()
     {
+        base.Update();
+
         //改变位置进行追踪
         if (pTrasfrom)
         {
