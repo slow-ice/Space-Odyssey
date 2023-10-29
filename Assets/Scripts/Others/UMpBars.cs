@@ -37,6 +37,10 @@ public class UMpBars : MonoBehaviour
         //获取model的当前能量值
         currentMP = GetPlayerModel.Instance.pm.Energy;
 
+        //TODO : 临时处理MP以防溢出
+        if(currentMP < 0)
+            currentMP = 0;
+
         level = (int)(currentMP / MP);
         
         level_MP = currentMP - level  * MP;

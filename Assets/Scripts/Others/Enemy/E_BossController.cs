@@ -1,6 +1,7 @@
 ﻿
 
 using Assets.Scripts.Character.Bullet;
+using Assets.Scripts.Utility.Pool;
 using System.Collections;
 using UnityEngine;
 
@@ -30,13 +31,15 @@ namespace Assets.Scripts.Others.Enemy {
         private void Awake() {
             patrolFlag = false;
             mPlayerTrans = GameObject.FindGameObjectWithTag("Player").transform;
+            pool = transform.parent.GetComponent<ObjectPool>();
         }
 
-        new void Start() {
+
+        void OnEnable() {
             SetRandomPatrol();
         }
 
-        private void Update() {
+        private new void Update() {
             FindPatrol();
             Move();
             TakeFire();
@@ -97,7 +100,7 @@ namespace Assets.Scripts.Others.Enemy {
         }
 
         public override void die() {
-            Debug.Log("die");
+            pool.Recycle(gameObject,null);
         }
     }
 }

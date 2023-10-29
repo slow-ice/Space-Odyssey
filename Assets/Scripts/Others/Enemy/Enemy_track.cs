@@ -11,6 +11,8 @@ public class Enemy_track : EnemyBase
 
     [SerializeField] float speed = 10;
 
+    bool isBeDestroyedByPlayer; //判断是否被玩家击杀
+
     // TODO : 获取玩家的Transform
     Transform pTrasfrom;
 
@@ -22,7 +24,11 @@ public class Enemy_track : EnemyBase
 
     public override void die()
     {
-        DropthingsManager.Instance.createDropThings(transform.position,transform.rotation);
+        //只有被玩家击杀后才有50%概率爆金币
+        if (isBeDestroyedByPlayer && Random.Range(0f,1f) < 0.5f)
+        {
+            DropthingsManager.Instance.createDropThings(transform.position, transform.rotation);
+        }
         pool.Recycle(gameObject,null);   
     }
 
@@ -31,6 +37,7 @@ public class Enemy_track : EnemyBase
         if (collision.CompareTag("Player"))
         {          
             GetPlayerModel.Instance.pm.ChangeHealth(-enemyData.damage);
+            isBeDestroyedByPlayer = false;
             die();
         }
     }
@@ -67,6 +74,7 @@ public class Enemy_track : EnemyBase
 
         if (currentHP <= 0)
         {
+            isBeDestroyedByPlayer = true;
             die();
         }
 

@@ -1,12 +1,9 @@
-using Assets.Scripts.Utility.Pool;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawn : Spawner
+public class EBossSpawn : Spawner
 {
-   
-
     private new void Start()
     {
         base.Start();
@@ -14,7 +11,6 @@ public class EnemySpawn : Spawner
 
     private new void Update()
     {
-       base.Update();
+        base.Update();
     }
-
 }
