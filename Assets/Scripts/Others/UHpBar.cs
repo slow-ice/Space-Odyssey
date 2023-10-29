@@ -23,6 +23,10 @@ public class UHpBar : MonoBehaviour
         
     }
 
+    private void OnEnable() {
+        currentHP = maxHP;
+    }
+
     private void Update()
     {
         //此处获取当前生命
