@@ -19,9 +19,11 @@ namespace Assets.Scripts.Others.Enemy {
 
         [Header("Fire")]
         public int fireNum = 10;
+        public float fireInterval = 0.1f;
+        private int fireCntTmp;
         public float rotationRange = 60f;
         public float fireCoolDown = 3f;
-        public float lastFireTime;
+        private float lastFireTime;
 
         bool patrolFlag;
 
@@ -36,7 +38,7 @@ namespace Assets.Scripts.Others.Enemy {
             SetRandomPatrol();
         }
 
-        private void Update() {
+        new void Update() {
             FindPatrol();
             Move();
             TakeFire();
@@ -82,18 +84,35 @@ namespace Assets.Scripts.Others.Enemy {
         }
 
         void TakeFire() {
-            if (Time.time > lastFireTime + fireCoolDown) { 
-                for (int i = 0; i < fireNum; i++) {
-                    var targetDir = mPlayerTrans.position - transform.position;
-                    float angle = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg - 90;
-                    angle += Random.Range(-rotationRange, rotationRange);
-                    var targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
-                    var go = Instantiate(bulletPrefab, transform.position, targetRotation, transform);
-                    go.GetComponent<BossBulletController>().targetTransfom = mPlayerTrans;
-                    go.SetActive(true);
-                }
+            if (Time.time > lastFireTime + fireCoolDown) {
+                fireCntTmp = 0;
+                InvokeRepeating("InstanciateBullet", 0f, fireInterval);
                 lastFireTime = Time.time;
             }
+            if (fireCntTmp > fireNum) {
+                fireCntTmp = 0;
+                CancelInvoke("InstanciateBullet");
+            }
+        }
+
+        IEnumerator fireCorotine(float time) {
+            for (int i = 0; i < fireNum; i++) {
+                Debug.Log("instantiate");
+                yield return new WaitForSeconds(time);
+                InstanciateBullet();
+            }
+            Debug.Log("end");
+        }
+
+        void InstanciateBullet() {
+            fireCntTmp++;
+            var targetDir = mPlayerTrans.position - transform.position;
+            float angle = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg - 90;
+            angle += Random.Range(-rotationRange, rotationRange);
+            var targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
+            var go = Instantiate(bulletPrefab, transform.position, targetRotation);
+            go.GetComponent<BossBulletController>().targetTransfom = mPlayerTrans;
+            go.SetActive(true);
         }
 
         public override void die() {

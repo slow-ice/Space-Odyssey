@@ -118,7 +118,7 @@ namespace Assets.Scripts.Character {
             if (InputManager.Instance.Fire && canAttack) {
                 outAttack = false;
                 isOnAttack = true;
-                if (mModel.Energy.Value > 0) {
+                if (mModel.Energy.Value > mPlayerData.minSpecialFireEnergy) {
                     FireTrace();
                 }
                 else {
@@ -144,6 +144,7 @@ namespace Assets.Scripts.Character {
         }
 
         void FireTrace() {
+            mModel.ChangeEnergy(-mPlayerData.attackCost);
             mSpecialBulletPool.Spawn(mFirePosition.position, mTransform.rotation, BulletTrace);
         }
 
