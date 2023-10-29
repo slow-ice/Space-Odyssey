@@ -11,7 +11,7 @@ namespace Assets.Scripts.Model.Player {
         public BindableProperty<int> Energy { get; set; }
         public PlayerData_SO PlayerData { get; set; }
         public int attackValue { get; set; }
-
+        public int scoreCount;
      
 
         protected override void OnInit() {
@@ -21,6 +21,7 @@ namespace Assets.Scripts.Model.Player {
         public void InitRuntimeData(PlayerData_SO playerData) {
             Health = new BindableProperty<int>(playerData.health);
             Energy = new BindableProperty<int>(0);
+            scoreCount = 0;
             PlayerData = playerData;
             attackValue = playerData.attackValue;
             
@@ -41,6 +42,9 @@ namespace Assets.Scripts.Model.Player {
         }
 
         public void ChangeEnergy(int changeValue) {
+            if (changeValue > 0) {
+                scoreCount += changeValue;
+            }
             var target = Energy.Value + changeValue;
             Energy.Value = Mathf.Clamp(target, 0, PlayerData.maxEnergy);
         }
