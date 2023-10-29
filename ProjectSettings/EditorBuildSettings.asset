@@ -8,16 +8,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/other scene.unity
     guid: d3f2a121f72da5b4abd7ba59140916be
-  - enabled: 1
-    path: Assets/Scenes/Gameover.unity
-    guid: c0865dd8079e266489d921f31a59ac3b
   - enabled: 1
     path: Assets/Scenes/FinalScene.unity
     guid: 29e981556f5220d4399f8570d1650c35
   - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: df27cf8ebb46ecd40a31cc1d3b3204fc
+  - enabled: 1
+    path: Assets/Scenes/GameoverSB.unity
+    guid: c0865dd8079e266489d921f31a59ac3b
   m_configObjects: {}

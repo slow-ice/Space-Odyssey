@@ -24,6 +24,11 @@ public class UMenu : MonoBehaviour
 
     public void UPlay()
     {
-        SceneManager.LoadScene("other scene");
+        SceneManager.LoadScene("FinalScene");
+    }
+
+    public void UBackGame()
+    {
+        SceneManager.LoadScene("FinalScene");
     }
 }
