@@ -16,7 +16,6 @@ public abstract class Resources : MonoBehaviour, IAbsorb {
 
     public int GetEnergy()
     {
-        Debug.Log("ÎüÊÕÄÜÁ¿");
         return energy;
     }
 

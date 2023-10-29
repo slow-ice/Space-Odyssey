@@ -9,7 +9,8 @@ namespace Assets.Scripts.Others {
         public ObjectPool parentPool;
 
         public float fadeDistance = 0.5f;
-        public float moveSpeed = 1f;
+        public float SmoothTime = 1f;
+        Vector2 workVelo;
 
         private new void Awake()
         {
@@ -26,11 +27,10 @@ namespace Assets.Scripts.Others {
 
         IEnumerator MoveToCenter(Transform center) {
             while (Vector2.Distance(transform.position, center.position) > fadeDistance) {
-                transform.position = Vector2.Lerp(transform.position, center.position,
-                    moveSpeed * Time.fixedDeltaTime);
+                transform.position = Vector2.SmoothDamp(transform.position, center.position,
+                    ref workVelo, SmoothTime);
                 yield return null;
             }
-            Debug.Log("fade");
             parentPool.Recycle(gameObject, () => {
                 StopAllCoroutines();
             });

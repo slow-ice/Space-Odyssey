@@ -11,6 +11,8 @@ namespace Assets.Scripts.Character.Bullet {
         public Quaternion rotation;
         public ObjectPool parentPool;
         Collider2D Collider2D;
+        TrailRenderer TrailRenderer;
+        public ParticleSystem HitParticle;
 
         public float moveSpeed;
         public float rotateSpeed = 1f;
@@ -28,9 +30,13 @@ namespace Assets.Scripts.Character.Bullet {
 
         private void Awake() {
             parentPool = GetComponentInParent<ObjectPool>();
+            TrailRenderer = GetComponent<TrailRenderer>();
+            HitParticle = GetComponentInChildren<ParticleSystem>();
         }
 
         private void OnEnable() {
+            TrailRenderer.enabled = true;
+            TrailRenderer.Clear();
             transCaches = null;
             targetTransfom = null;
             initEulerAngle = transform.eulerAngles;
@@ -50,6 +56,7 @@ namespace Assets.Scripts.Character.Bullet {
         private void OnTriggerEnter2D(Collider2D collision) {
             if (collision.TryGetComponent<EnemyBase>(out var enemyBase)) {
                 enemyBase.damaged(damage);
+                HitParticle.Play(true);
                 parentPool.Recycle(gameObject, null);
             }
         }
@@ -58,6 +65,7 @@ namespace Assets.Scripts.Character.Bullet {
             if (IsTracingMode) {
                 if (targetTransfom != null && !targetTransfom.gameObject.activeSelf) {
                     IsTracingMode = false;
+                    initEulerAngle = transform.eulerAngles;
                 }
                 MoveTrace();
             }
@@ -74,12 +82,15 @@ namespace Assets.Scripts.Character.Bullet {
         void MoveTrace() {
             FindTarget();
             if (targetTransfom == null) {
-                parentPool.Recycle(gameObject, null);
+                TrailRenderer.enabled = false;
+                parentPool.Recycle(gameObject, () => {
+                    IsTracingMode = false;
+                    transCaches = null;
+                });
                 return;
             }
             transform.up = Vector3.Slerp(transform.up, targetTransfom.position - transform.position,
                 1f / Vector2.Distance(transform.position, targetTransfom.position) * rotateSpeed);
-            Debug.Log(transform.up);
             transform.position += transform.up * moveSpeed * Time.fixedDeltaTime;
         }
 
@@ -101,6 +112,7 @@ namespace Assets.Scripts.Character.Bullet {
 
         void CheckDestroy() {
             if (!IsInScreen()) {
+                TrailRenderer.enabled = false;
                 parentPool.Recycle(gameObject, () => {
                     IsTracingMode = false;
                     transCaches = null;

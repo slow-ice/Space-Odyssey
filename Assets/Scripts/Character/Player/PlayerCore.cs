@@ -12,12 +12,14 @@ using UnityEngine;
 namespace Assets.Scripts.Character {
     public class PlayerCore {
         public Transform mTransform { get; private set; }
+        public Transform mFirePosition {  get; private set; }
         public Rigidbody2D mRigidbody { get; private set; }
         public SpriteRenderer mSpriteRenderer { get; private set; }
         public PlayerController mController { get; private set; }
         public PlayerData_SO mPlayerData { get; private set; }
         public PlayerModel mModel { get; set; }
-        public ObjectPool mPool { get; private set; }
+        public ObjectPool mNormalBulletPool { get; private set; }
+        public ObjectPool mSpecialBulletPool { get; private set; }
         public ParticleSystem mParticleSystem { get; private set; }
 
         Vector2 mouseWorldPos = Vector2.zero;
@@ -48,7 +50,12 @@ namespace Assets.Scripts.Character {
             mRigidbody = mController.GetComponent<Rigidbody2D>();
             mSpriteRenderer = mController.GetComponent<SpriteRenderer>();
             mParticleSystem = mController.GetComponentInChildren<ParticleSystem>();
-            mPool = mTransform.parent.GetComponentInChildren<ObjectPool>();
+
+            var normalPool = mTransform.parent.GetChild(3).GetChild(0).GetComponent<ObjectPool>();
+            mNormalBulletPool = normalPool;
+            var specialPool = mTransform.parent.GetChild(3).GetChild(1).GetComponent<ObjectPool>();
+            mSpecialBulletPool = specialPool;
+            mFirePosition = mTransform.Find("Fire Position");
         }
 
         public void Move() {
@@ -127,12 +134,11 @@ namespace Assets.Scripts.Character {
 
         void FireForward() {
             //bulletStrategy.SetMoveMode()
-            mPool.Spawn(mTransform.position, mTransform.rotation, null);
+            mNormalBulletPool.Spawn(mFirePosition.position, mTransform.rotation, null);
         }
 
         void FireTrace() {
-            Debug.Log("Fire trace");
-            mPool.Spawn(mTransform.position, mTransform.rotation, BulletTrace);
+            mSpecialBulletPool.Spawn(mFirePosition.position, mTransform.rotation, BulletTrace);
         }
 
         void BulletTrace(GameObject go) {
@@ -161,7 +167,7 @@ namespace Assets.Scripts.Character {
         public bool canAbsorb {
             get {
                 return outAttack &&
-                    mRigidbody.velocity.magnitude < mPlayerData.attackToAbsorbTime;
+                    mRigidbody.velocity.magnitude < mPlayerData.absorbEdgeMoveSpeed;
             }
         }
 
