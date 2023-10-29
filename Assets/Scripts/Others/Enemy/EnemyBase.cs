@@ -1,6 +1,5 @@
 using Assets.Scripts.Model.Enemy;
 using Assets.Scripts.Utility.Pool;
-using BehaviorDesigner.Runtime.Tasks.Unity.UnityGameObject;
 using QFramework;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,6 +20,10 @@ public class EnemyBase : MonoBehaviour
         //自动从父物体中获取对象池脚本
         pool = transform.parent.GetComponent<ObjectPool>();
         
+        currentHP = enemyData.health;
+    }
+
+    private void OnEnable() {
         currentHP = enemyData.health;
     }
 

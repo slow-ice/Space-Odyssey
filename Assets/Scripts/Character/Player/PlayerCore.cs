@@ -1,5 +1,6 @@
 ﻿
 
+using Assets.Scripts.Character.Audio;
 using Assets.Scripts.Character.Bullet;
 using Assets.Scripts.Character.Resource;
 using Assets.Scripts.Model.Player;
@@ -118,6 +119,7 @@ namespace Assets.Scripts.Character {
             if (InputManager.Instance.Fire && canAttack) {
                 outAttack = false;
                 isOnAttack = true;
+                AudioManager.Instance.Play(0);
                 if (mModel.Energy.Value > mPlayerData.minSpecialFireEnergy) {
                     FireTrace();
                 }
