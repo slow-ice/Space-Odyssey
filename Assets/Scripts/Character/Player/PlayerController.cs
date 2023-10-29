@@ -1,8 +1,10 @@
 using Assets.Architecture;
 using Assets.Scripts.Character;
 using Assets.Scripts.Character.Player.State;
+using Assets.Scripts.Event;
 using Assets.Scripts.Model.Player;
 using Assets.Scripts.Refactoring;
+using Assets.Scripts.Utility.Input_System;
 using Assets.Utility;
 using QFramework;
 using System.Collections;
@@ -31,6 +33,14 @@ public class PlayerController : MonoBehaviour, IController
 
     private void Start() {
         InitModel();
+        RegisterPlayerDie();
+    }
+
+    void RegisterPlayerDie() {
+        TypeEventSystem.Global.Register<PlayerDieEvent>(onEvent => {
+            InputManager.Instance.inputActions.Disable();
+            GetComponent<SpriteRenderer>().enabled = false;
+        });
     }
 
     private void Update() {

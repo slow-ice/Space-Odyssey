@@ -1,5 +1,7 @@
-﻿using Assets.Scripts.Utility.Pool;
+﻿using Assets.Scripts.Character.Audio;
+using Assets.Scripts.Utility.Pool;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,9 +12,9 @@ namespace Assets.Scripts.Character.Bullet {
         public BulletStrategy BulletStrategy { get; private set; }
         public Quaternion rotation;
         public ObjectPool parentPool;
+        ObjectPool hitParticlePool;
         Collider2D Collider2D;
         TrailRenderer TrailRenderer;
-        public ParticleSystem HitParticle;
 
         public float moveSpeed;
         public float rotateSpeed = 1f;
@@ -31,7 +33,7 @@ namespace Assets.Scripts.Character.Bullet {
         private void Awake() {
             parentPool = GetComponentInParent<ObjectPool>();
             TrailRenderer = GetComponent<TrailRenderer>();
-            HitParticle = GetComponentInChildren<ParticleSystem>();
+            hitParticlePool = GameObject.Find("Hit Particles").GetComponent<ObjectPool>();
         }
 
         private void OnEnable() {
@@ -56,9 +58,22 @@ namespace Assets.Scripts.Character.Bullet {
         private void OnTriggerEnter2D(Collider2D collision) {
             if (collision.TryGetComponent<EnemyBase>(out var enemyBase)) {
                 enemyBase.damaged(damage);
-                HitParticle.Play(true);
+                if (IsTracingMode) {
+                    AudioManager.Instance.Play(2);
+                }
+                else {
+                    AudioManager.Instance.Play(1);
+                }
+                var go = hitParticlePool.Spawn(transform.position, transform.rotation, null);
+                go.GetComponent<ParticleSystem>().Play(true);
+                hitParticlePool.StartCoroutine(recycle(0.3f, go));
                 parentPool.Recycle(gameObject, null);
             }
+        }
+
+        IEnumerator recycle(float time, GameObject go) {
+            yield return new WaitForSeconds(time);
+            hitParticlePool.Recycle(go, null);
         }
 
         void CheckMoveMode() {
@@ -82,11 +97,12 @@ namespace Assets.Scripts.Character.Bullet {
         void MoveTrace() {
             FindTarget();
             if (targetTransfom == null) {
-                TrailRenderer.enabled = false;
-                parentPool.Recycle(gameObject, () => {
-                    IsTracingMode = false;
-                    transCaches = null;
-                });
+                //TrailRenderer.enabled = false;
+                //parentPool.Recycle(gameObject, () => {
+                //    IsTracingMode = false;
+                //    transCaches = null;
+                //});
+                IsTracingMode = false;
                 return;
             }
             transform.up = Vector3.Slerp(transform.up, targetTransfom.position - transform.position,
@@ -101,6 +117,10 @@ namespace Assets.Scripts.Character.Bullet {
                 targetTransfom = null;
                 var minDis = 100000f;
                 foreach (Transform t in transCaches) {
+                    var pos = Camera.main.WorldToViewportPoint(t.position);
+                    if (pos.x < 0 || pos.x > 1 || pos.y < 0 || pos.y > 1) {
+                        continue;
+                    }
                     var dis = Vector3.Distance(t.position, transform.position);
                     if (dis < minDis) {
                         minDis = dis;

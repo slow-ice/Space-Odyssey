@@ -42,6 +42,11 @@ namespace Assets.Scripts.Others.Enemy {
             FindPatrol();
             Move();
             TakeFire();
+
+            Debug.Log(currentHP);
+            if (currentHP <= 0) {
+                die();
+            }
         }
 
         void Move() {
@@ -116,7 +121,7 @@ namespace Assets.Scripts.Others.Enemy {
         }
 
         public override void die() {
-            Debug.Log("die");
+            Destroy(gameObject);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Assets.Scripts.Utility.Input_System {
     public class InputManager : Singleton<InputManager> {
-        InputControl inputActions;
+        public InputControl inputActions;
 
         bool fireInput;
         public bool Fire { get {

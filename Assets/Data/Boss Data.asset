@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 917168d6eed150147b07369e43f503e1, type: 3}
   m_Name: Boss Data
   m_EditorClassIdentifier: 
-  health: 20
+  health: 600
   damage: 2
   resourceNum: 2

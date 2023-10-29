@@ -49,7 +49,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: fbfd658e4f6674f4e938052e4e123927, type: 2}
   pool: {fileID: 0}
-  dropThingsPool: {fileID: 0}
   rotateSpeed: 5
   speed: 4
 --- !u!212 &6919277366296523952
@@ -93,7 +92,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: c68bc1e5789c3b341ae9c64f09c59304, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 37f06cba6880ce04bb22f2636ecf78ca, type: 3}
   m_Color: {r: 0.8396226, g: 0.62311614, b: 0.62311614, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -117,18 +116,18 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.21133333}
+  m_Offset: {x: 0.00000011920929, y: -0.0030947924}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.28866667}
-    oldSize: {x: 1, y: 1}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.84444445, y: 1.1777778}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.9800532, y: 1.1496007}
   m_EdgeRadius: 0
 --- !u!50 &6919277366296523956
 Rigidbody2D:
