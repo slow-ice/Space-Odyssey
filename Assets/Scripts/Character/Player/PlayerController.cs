@@ -63,6 +63,10 @@ public class PlayerController : MonoBehaviour, IController
         mCore.mModel = mModel;
     }
 
+    public void CheckBulletHit(int damage, int energy) {
+        mCore.DealBulletHit(damage, energy);
+    }
+
     #region FSM
 
     void OnFsmInit() {
