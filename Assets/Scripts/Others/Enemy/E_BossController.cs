@@ -8,6 +8,7 @@ using UnityEngine;
 namespace Assets.Scripts.Others.Enemy {
     public class E_BossController : EnemyBase {
         public GameObject bulletPrefab;
+        public ParticleSystem mWarningParticle;
 
         Vector2 randomPartrolPoint = Vector2.zero;
 
@@ -33,6 +34,7 @@ namespace Assets.Scripts.Others.Enemy {
         private void Awake() {
             patrolFlag = false;
             mPlayerTrans = GameObject.FindGameObjectWithTag("Player").transform;
+            mWarningParticle = transform.GetChild(0).GetComponent<ParticleSystem>();
         }
 
         protected override void Start() {
@@ -98,6 +100,7 @@ namespace Assets.Scripts.Others.Enemy {
         void TakeFire() {
             if (Time.time > lastFireTime + fireCoolDown) {
                 fireCntTmp = 0;
+                mWarningParticle.Play(true);
                 InvokeRepeating("InstanciateBullet", 0f, fireInterval);
                 lastFireTime = Time.time;
             }

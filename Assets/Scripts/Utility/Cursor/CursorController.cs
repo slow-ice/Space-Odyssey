@@ -12,7 +12,7 @@ namespace Assets.Scripts.Utility.CursorManage {
 
         private void Awake() {
             //SetCursorVisibility();
-            Cursor.visible = false;
+            UnityEngine.Cursor.visible = false;
             SpriteRenderer = GetComponent<SpriteRenderer>();
             player = transform.parent.GetChild(0);
         }
@@ -34,7 +34,7 @@ namespace Assets.Scripts.Utility.CursorManage {
         }
 
         public void SetCursorVisibility() {
-            Cursor.SetCursor(CursorTexture, cursorPosition, CursorMode.Auto);
+            UnityEngine.Cursor.SetCursor(CursorTexture, cursorPosition, CursorMode.Auto);
         }
     }
 }

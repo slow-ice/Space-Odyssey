@@ -26,13 +26,20 @@ public class GetPlayerModel : Singleton<GetPlayerModel>, IController
         pm = this.GetModel<PlayerModel>();
     }
 
+    bool flag = false;
     private void OnEnable() {
-        pm.Health.Value = pm.PlayerData.health;
+        flag = true;
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (flag) {
+            pm = this.GetModel<PlayerModel>();
+            pm.Health.Value = pm.PlayerData.health;
+            flag = false;
+        }
         hp = (float)pm.Health;
         mp = (float)pm.Energy;
     }
